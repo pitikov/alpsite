@@ -11,7 +11,8 @@ create table if not exists `site_user` (
 	`name` varchar(128) not null comment 'Имя пользователя в миру',
 	`pwdrestorequest` varchar(128) not null comment 'Текст контрольного вопросса',
 	`hash` varchar(32) not null comment 'hash-свертка пароля',
-	`requesthash` varchar(32) not null comment 'hash-свертка ответа на контрольный вопросс'
+	`requesthash` varchar(32) not null comment 'hash-свертка ответа на контрольный вопросс',
+	`accessrules` set('site_member','federation_member', 'club_member') comment 'Регулирование доступа к разделам сайта на базе членства'
 ) engine = innodb comment 'Таблица пользователей сайта';
 
 -- Таблца восстановлений пароля. Заполняется при запроссе восстановления пароля и 
@@ -24,8 +25,6 @@ create table if not exists `site_pwdrequest` (
 	key `fk_site_pwdrequest_uid` (`uid`),
 	constraint `fk_site_pwdrequets_uid` foreign key (`uid`) references `site_user` (`uid`) on update cascade on delete cascade
 ) engine = innodb comment 'Запроссы восстановления пароля';
-
--- @@TODO Необходимы таблицы
 
 -- ******************* Статьи на сайте *****************************
 -- таблица тематики статей
@@ -85,3 +84,56 @@ create table if not exists `article_comment` (
 	constraint `fk_article_comment_uid` foreign key (`uid`) references `site_user` (`uid`) on update cascade on delete restrict,
 	constraint `fk_article_comment_parent` foreign key (`parent`) references `article_comment` (`id`) on update cascade on delete restrict
 ) engine = innodb comment 'Комментарии к статьям';
+
+create table if not exists `article_submit` (
+	`id` integer primary key auto_increment,
+	`uid` integer not null comment 'Указатель на пользователя',
+	`artid` integer not null comment 'Указатель на статью',
+	`triggers` set ('Редактрование статьи', 'Коментарйи', 'Статья уделенна') not null comment 'Тригерры оповещения',
+	key `unq_article_submit` (`artid`, `uid`) comment 'блокировка двойных подписок',
+	key `fk_article_submit_uid` (`uid`),
+	key `fk_article_submit_artid` (`artid`),
+	constraint `fk_article_submit_uid` foreign key (`uid`) references `site_user` (`uid`) on update cascade on delete cascade,
+	constraint `fk_article_submit_artid` foreign key (`artid`) references `article_body` (`artid`) on update cascade on delete cascade
+) engine innodb comment 'Подписка на статью';
+
+create table if not exists `article_theme_submit` (
+	`id` integer primary key auto_increment,
+	`uid` integer not null comment 'Указатель на пользователя',
+	`theme` integer not null comment 'Указатель на тему',
+	`triggers` set ('Новая статья', 'Сатья переименованна', 'Перемещение статьи в другую тему', 'Статья уделенна', 'Тема удаленна') not null comment 'Тригерры оповещения',
+	key `unq_article_theme_submit` (`theme`, `uid`) comment 'блокировка двойных подписок',
+	key `fk_article_theme_submit_uid` (`uid`),
+	key `fk_article_theme_submit_theme` (`theme`),
+	constraint `fk_article_theme_submit_uid` foreign key (`uid`) references `site_user` (`uid`) on update cascade on delete cascade,
+	constraint `fk_article_theme_submit_theme` foreign key (`theme`) references `article_theme` (`id`) on update cascade on delete cascade
+) engine innodb comment 'Подписка на статью';
+
+-- ************************ ФЕДЕРАЦИЯ **************************
+create table if not exists `federation_member` (
+	`mid` integer primary key auto_increment,
+	`uid` integer default null comment 'привязка к учетке пользователя сайта',
+	`name` varchar(128) not null comment 'Имя Фамилия отчество',
+	`date_of_bethday` date default null comment 'День рождения',
+	`sport_range` enum (
+		'не имеет',
+		'3-й разряд',
+		'2-й разряд',
+		'1-й разряд',
+		'кандидат в мастера спорта',
+		'мастер спорта',
+		'заслуженный мастер спорта'
+	) default null comment 'текущий разряд',
+	`mountain_resque` bool default null comment 'жетон спасение в горах',
+	`mountain_guide` enum (
+		'не имеет',
+		'стажер',
+		'III категория',
+		'II категория',
+		'I категория'
+	) default null comment 'текущая инструкторская категория',
+	`about` text default null comment 'Данные о участнике',
+	`photo` varchar(128) default null comment 'путь к файлу фотографии',
+	key `fk_federation_member_uid` (`uid`),
+	constraint `fk_federation_member_uid` foreign key (`uid`) references `site_user`(`uid`) on update cascade on delete set null
+) engine = innodb comment 'Члены федерации';
