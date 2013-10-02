@@ -1,13 +1,13 @@
-fapo
-====
+alpsite
+=======
 
-FAPO site storage
+Хранилище исходных кодов проекта "Сайт федерации альпинизма пензенской области"
 
 Для обеспечения работоспособности yii framwork (https://github.com/yiisoft/yii/archive/1.1.14.zip) разместить в каталоге уровнем выше
 
 Должно получиться 
 .
-├── fapo
+├── alpsite
 │   ├── assets
 │   ├── css
 │   ├── images
@@ -335,5 +335,3 @@ FAPO site storage
         ├── zh
         ├── zh_cn
         └── zh_tw
-
-
