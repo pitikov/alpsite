@@ -149,7 +149,7 @@ create table if not exists `lib_climbing_list` (
 	`date` date not null comment 'дата',
 	`peak` varchar (64) not null comment 'на вершину',
 	`route` varchar (64) not null comment 'по маршруту',
-	`diffucalty` enum (
+	`difficulty` enum (
 		'1Б','2А','2Б','3А','3Б','4А','4Б','5А','5Б','6А','6Б'
 	) not null default '1Б' comment 'категории сложности',
 	`ingroup` varchar(64) not null comment 'в составе группы',
@@ -191,6 +191,8 @@ create table if not exists `federation_documents` (
 	constraint `fk_federation_documents` foreign key (`artid`) references `article_body`(`artid`) on update cascade on delete cascade
 ) engine = innodb comment 'Документы на странице федерации';
 
+-- мейби для location предусмотреть кроме текстового поля ещё и поле с географическими координатами 
+-- для геопозиционирования в последствии???
 create table if not exists `federation_calendar` (
 	`id` integer primary key auto_increment,
 	`title` varchar(100) not null comment 'Наиманование АМ',
