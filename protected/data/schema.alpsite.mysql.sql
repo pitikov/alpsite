@@ -4,6 +4,8 @@ create schema if not exists `alpsite` default collate 'utf8_general_ci' characte
 
 use `alpsite`;
 
+-- Таблица пользователей
+-- 1-й зарегестрированный пользователь автоматически становится администратором
 create table if not exists `site_user` (
 	`uid` integer primary key auto_increment,
 	`login` varchar(16) not null unique comment 'user login',
@@ -109,9 +111,11 @@ create table if not exists `article_theme_submit` (
 	constraint `fk_article_theme_submit_theme` foreign key (`theme`) references `article_theme` (`id`) on update cascade on delete cascade
 ) engine innodb comment 'Подписка на статью';
 
--- ************************ ФЕДЕРАЦИЯ **************************
-create table if not exists `federation_member` (
-	`mid` integer primary key auto_increment,
+
+-- *************** табличные данные (библиотека) ***************
+-- библиотека данных о пользователях
+create table if not exists `lib_user_dossier` (
+	`id` integer primary key auto_increment,
 	`uid` integer default null comment 'привязка к учетке пользователя сайта',
 	`name` varchar(128) not null comment 'Имя Фамилия отчество',
 	`date_of_bethday` date default null comment 'День рождения',
@@ -134,6 +138,118 @@ create table if not exists `federation_member` (
 	) default null comment 'текущая инструкторская категория',
 	`about` text default null comment 'Данные о участнике',
 	`photo` varchar(128) default null comment 'путь к файлу фотографии',
-	key `fk_federation_member_uid` (`uid`),
-	constraint `fk_federation_member_uid` foreign key (`uid`) references `site_user`(`uid`) on update cascade on delete set null
+	key `fk_user_dossier_uid` (`uid`),
+	constraint `fk_user_dossier_uid` foreign key (`uid`) references `site_user`(`uid`) on update cascade on delete set null
+) engine = innodb comment 'Досье участника';
+
+-- схоженные вершины
+create table if not exists `lib_climbing_list` (
+	`id` integer primary key auto_increment,
+	`member` integer not null comment 'участник',
+	`date` date not null comment 'дата',
+	`peak` varchar (64) not null comment 'на вершину',
+	`route` varchar (64) not null comment 'по маршруту',
+	`diffucalty` enum (
+		'1Б','2А','2Б','3А','3Б','4А','4Б','5А','5Б','6А','6Б'
+	) not null default '1Б' comment 'категории сложности',
+	`ingroup` varchar(64) not null comment 'в составе группы',
+	`report` integer default null comment 'указатель на отчет',
+	key `fk_climbing_member` (`member`),
+	key `fk_climbing_report` (`report`),
+	constraint `fk_climbing_member` foreign key (`member`) references `lib_user_dossier`(`id`) on update cascade on delete cascade,
+	constraint `fk_climbing_report` foreign key (`report`) references `article_body`(`artid`) on update cascade on delete set null,
+	constraint `unq_climbing_list` unique (`date`,`member`,`peak`,`route`,`diffucalty`)
+) engine = innodb comment 'список восхождений';
+
+-- @@TODO@@
+-- В настоящий момент информация о членах федерации и членах клуба почти полностью 
+-- идентична, хотя предполагается что должны быть различия - вопросс требует 
+-- проработки
+-- ************************ ФЕДЕРАЦИЯ **************************
+-- должности в федерации
+create table if not exists `federation_role` (
+	`id` integer primary key auto_increment,
+	`role` varchar(50) comment 'должность'
+) engine innodb comment 'должности в федерации';
+
+-- члены федерации
+create table if not exists `federation_member` (
+	`dossier` integer primary key,
+	`member_from` date not null comment 'член с (дата)',
+	`memer_to` date default null comment 'член по (дата)',
+	`federation_role` integer default null comment 'занимаемая должность',
+	`special_service` text default null comment 'Особые заслуги',
+	key `fk_federation_member_dossier` (`dossier`),
+	key `fk_federation_member_role` (`federation_role`),
+	constraint `fk_federation_member_dossier` foreign key (`dossier`) references `lib_user_dossier`(`id`) on update cascade on delete cascade,
+	constraint `fk_federation_member_role` foreign key (`federation_role`) references `federation_role`(`id`) on update cascade on delete restrict
 ) engine = innodb comment 'Члены федерации';
+
+-- оффициальные документы федерации
+create table if not exists `federation_documents` (
+	`artid` integer primary key,
+	constraint `fk_federation_documents` foreign key (`artid`) references `article_body`(`artid`) on update cascade on delete cascade
+) engine = innodb comment 'Документы на странице федерации';
+
+create table if not exists `federation_calendar` (
+	`id` integer primary key auto_increment,
+	`title` varchar(100) not null comment 'Наиманование АМ',
+	`begin` date not null comment 'начало АМ',
+	`finish` date not null comment 'окончание АМ',
+	`localtion` varchar(100) not null comment 'место проведения',
+	`organisation` varchar(100) not null comment 'проводящая организация',
+	`responsible_executor` varchar(50) not null comment 'ответственный исполнитель'
+) engine = innodb comment 'календарь АМ';
+
+create table if not exists `federation_calendar_article` (
+	`id` integer primary key auto_increment,
+	`event` integer not null comment 'указатель на АМ',
+	`article` integer not null comment 'указатель на статью',
+	`note` tinytext default null comment 'Примечание',
+	key `fk_federation_calendar_event` (`event`),
+	key `fk_federation_calendar_article` (`article`),
+	constraint `fk_federation_calendar_event` foreign key (`event`) references `federation_calendar`(`id`) on update cascade on delete cascade,
+	constraint `fk_federation_calendar_article` foreign key (`article`) references `article_body`(`artid`) on update cascade on delete cascade,
+	constraint `unq_federation_calendar_event_article` unique (`event`,`article`) comment 'ограничение двойного включения статьи в АМ'
+) engine = innodb comment 'подшивки статей к АМ из календаря';
+
+-- ************************ клуб **************************
+-- должности в клубе
+create table if not exists `mountaineeringclub_role` (
+	`id` integer primary key auto_increment,
+	`role` varchar(50) comment 'должность'
+) engine innodb comment 'должности в федерации';
+
+-- члены клуба
+create table if not exists `mountaineeringclub_member` (
+	`dossier` integer primary key,
+	`member_from` date not null comment 'член с (дата)',
+	`memer_to` date default null comment 'член по (дата)',
+	`mountaineeringclub_role` integer default null comment 'занимаемая должность',
+	`special_service` text default null comment 'Особые заслуги',
+	key `fk_mountaineeringclub_member_dossier` (`dossier`),
+	key `fk_mountaineeringclub_member_role` (`mountaineeringclub_role`),
+	constraint `fk_mountaineeringclub_member_dossier` foreign key (`dossier`) references `lib_user_dossier`(`id`) on update cascade on delete cascade,
+	constraint `fk_mountaineeringclub_member_role` foreign key (`mountaineeringclub_role`) references `mountaineeringclub_role`(`id`) on update cascade on delete restrict
+) engine = innodb comment 'Члены федерации';
+
+-- оффициальные документы клуба
+create table if not exists `mountaineeringclub_documents` (
+	`artid` integer primary key,
+	constraint `fk_mountaineeringclub_documents` foreign key (`artid`) references `article_body`(`artid`) on update cascade on delete cascade
+) engine = innodb comment 'Документы на странице альпклуба';
+
+-- Календарь мероприятий клуба
+create table if not exists `mountaineeringclub_calendar` (
+	`id` integer primary key auto_increment,
+	`title` varchar(100) not null comment 'Наиманование мероприятия',
+	`begin` datetime not null comment 'начало АМ',
+	`finish` datetime default null comment 'окончание АМ',
+	`localtion` varchar(100) not null comment 'место проведения',
+	`responsible_executor` integer not null comment 'ответственный исполнитель',
+	`article` integer default null comment 'Указатель на связанную статью',
+	key `fk_club_calendar_executor` (`responsible_executor`),
+	key `fk_club_calendar_article` (`article`),
+	constraint `fk_club_calendar_executor` foreign key (`responsible_executor`) references `site_user`(`uid`) on update cascade on delete restrict,
+	constraint `fk_club_calendar_article` foreign key (`article`) references `article_body`(`artid`) on update cascade on delete set null
+) engine = innodb comment 'Календарь мероаприятий клуба'
