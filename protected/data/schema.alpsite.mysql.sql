@@ -158,7 +158,7 @@ create table if not exists `lib_climbing_list` (
 	key `fk_climbing_report` (`report`),
 	constraint `fk_climbing_member` foreign key (`member`) references `lib_user_dossier`(`id`) on update cascade on delete cascade,
 	constraint `fk_climbing_report` foreign key (`report`) references `article_body`(`artid`) on update cascade on delete set null,
-	constraint `unq_climbing_list` unique (`date`,`member`,`peak`,`route`,`diffucalty`)
+	constraint `unq_climbing_list` unique (`date`,`member`,`peak`,`route`,`difficulty`)
 ) engine = innodb comment 'список восхождений';
 
 -- @@TODO@@
@@ -191,14 +191,14 @@ create table if not exists `federation_documents` (
 	constraint `fk_federation_documents` foreign key (`artid`) references `article_body`(`artid`) on update cascade on delete cascade
 ) engine = innodb comment 'Документы на странице федерации';
 
--- мейби для location предусмотреть кроме текстового поля ещё и поле с географическими координатами 
--- для геопозиционирования в последствии???
 create table if not exists `federation_calendar` (
 	`id` integer primary key auto_increment,
 	`title` varchar(100) not null comment 'Наиманование АМ',
 	`begin` date not null comment 'начало АМ',
 	`finish` date not null comment 'окончание АМ',
 	`localtion` varchar(100) not null comment 'место проведения',
+	`latitude` float default null comment 'широта',
+	`longitude` float default null comment 'долгота',
 	`organisation` varchar(100) not null comment 'проводящая организация',
 	`responsible_executor` varchar(50) not null comment 'ответственный исполнитель'
 ) engine = innodb comment 'календарь АМ';
@@ -248,6 +248,8 @@ create table if not exists `mountaineeringclub_calendar` (
 	`begin` datetime not null comment 'начало АМ',
 	`finish` datetime default null comment 'окончание АМ',
 	`localtion` varchar(100) not null comment 'место проведения',
+	`latitude` float default null comment 'широта',
+	`longitude` float default null comment 'долгота',
 	`responsible_executor` integer not null comment 'ответственный исполнитель',
 	`article` integer default null comment 'Указатель на связанную статью',
 	key `fk_club_calendar_executor` (`responsible_executor`),
