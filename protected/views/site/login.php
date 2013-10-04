@@ -3,15 +3,15 @@
 /* @var $model LoginForm */
 /* @var $form CActiveForm  */
 
-$this->pageTitle=Yii::app()->name . ' - Login';
+$this->pageTitle=Yii::app()->name . ' - Авторизация';
 $this->breadcrumbs=array(
-	'Login',
+	'Авторизация',
 );
 ?>
 
-<h1>Login</h1>
+<h1>Авторизация пользователя</h1>
 
-<p>Please fill out the following form with your login credentials:</p>
+<p>Пожалуйста введите учетные данные:</p>
 
 <div class="form">
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -22,7 +22,7 @@ $this->breadcrumbs=array(
 	),
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+	<p class="note">Поля, отмеченные <span class="required">*</span>, обязательны для заполнения.</p>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'username'); ?>
@@ -35,7 +35,7 @@ $this->breadcrumbs=array(
 		<?php echo $form->passwordField($model,'password'); ?>
 		<?php echo $form->error($model,'password'); ?>
 		<p class="hint">
-			Hint: You may login with <kbd>demo</kbd>/<kbd>demo</kbd> or <kbd>admin</kbd>/<kbd>admin</kbd>.
+		    Подсказка: Вы можите использовать <kbd>demo</kbd>/<kbd>demo</kbd> или <kbd>admin</kbd>/<kbd>admin</kbd>.
 		</p>
 	</div>
 
@@ -46,8 +46,17 @@ $this->breadcrumbs=array(
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton('Login'); ?>
+		<?php echo CHtml::submitButton('Авторизироваться'); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
 </div><!-- form -->
+<?php
+    if (Yii::app()->user->hasFlash('error')) {
+        echo '<div class="error">'.Yii::app()->user->getFlash('error').'</div>';
+    }
+?>
+<h2>Если вы уже имеете регистрацию на нижеуказанных рессурсах, вы можете использовать ее:</h2>
+<?php
+    $this->widget('ext.eauth.EAuthWidget', array('action' => 'site/login'));
+?>
