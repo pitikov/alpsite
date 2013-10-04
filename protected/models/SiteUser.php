@@ -87,11 +87,11 @@ class SiteUser extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'uid' => 'Uid',
-			'login' => 'Login',
-			'mail' => 'Mail',
-			'name' => 'Name',
-			'pwdrestorequest' => 'Pwdrestorequest',
+			'uid' => 'id',
+			'login' => 'login',
+			'mail' => 'E-Mail',
+			'name' => 'Имя',
+			'pwdrestorequest' => 'Контрольный вопросс',
 			'hash' => 'Hash',
 			'requesthash' => 'Requesthash',
 			'accessrules' => 'Accessrules',

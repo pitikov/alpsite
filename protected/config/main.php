@@ -21,6 +21,7 @@ return array(
     'ext.lightopenid.*',
     'ext.eauth.*',
     'ext.eauth.services.*',
+    'ext.redactor.*'
   ),
   
   'modules'=>array(
@@ -166,6 +167,21 @@ return array(
 	),
       ),
     ),
+    // Defaults to Widgets
+    'widgetFactory' => array(
+	'widgets' => array(
+	    'ERedactorWidget' => array(
+		'options'=>array(
+		    'lang'=>'fi',
+			'buttons'=>array(
+			    'formatting', '|', 'bold', 'italic', 'deleted', '|',
+			    'unorderedlist', 'orderedlist', 'outdent', 'indent', '|',
+			    'image', 'video', 'link', '|', 'html',
+                        ),
+                    ),
+                ),
+            ),
+        ),
   ),
   
   // application-level parameters that can be accessed
