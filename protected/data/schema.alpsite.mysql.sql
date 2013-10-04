@@ -17,6 +17,16 @@ create table if not exists `site_user` (
 	`accessrules` set('site_member','federation_member', 'club_member') comment 'Регулирование доступа к разделам сайта на базе членства'
 ) engine = innodb comment 'Таблица пользователей сайта';
 
+create table if not exists `site_user_openid` (
+	`id` integer primary key auto_increment,
+	`uid` integer not null comment 'указатель на запись пользователя',
+	`service` varchar(50) not null,
+	`token` varchar(64)  not null,
+	key `fk_site_user_openid` (`uid`),
+	constraint `fk_site_user_openid` foreign key (`uid`) references `site_user`(`uid`) on update cascade on delete cascade,
+	constraint `unq_site_openid` unique (`service`,`token`) comment 'Делаем привязку к OpenId уникальной'
+) engine = innodb comment 'Таблица токенов OpenId и OpenAuth';
+
 -- Таблца восстановлений пароля. Заполняется при запроссе восстановления пароля и 
 -- успешном ответе на контрольный вопрос. Запись таблицы удаляется при входе 
 -- пользователя на сайт. Аттрибут rndprefix является динамически формируемой 
