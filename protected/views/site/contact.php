@@ -57,7 +57,24 @@ If you have business inquiries or other questions, please fill out the following
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'body'); ?>
-		<?php echo $form->textArea($model,'body',array('rows'=>6, 'cols'=>50)); ?>
+		<?php
+		    $this->widget('ImperaviRedactorWidget', array(
+			// You can either use it for model attribute
+			'model' => $model,
+			'attribute' => 'body',
+
+			// or just for input field
+			'name' => 'my_input_name',
+
+			// Some options, see http://imperavi.com/redactor/docs/
+			'options' => array(
+			    'lang' => 'ru',
+			    'toolbar' => true,
+			    'iframe' => true,
+			    'css' => 'wym.css',
+			),
+		    ));
+		?>
 		<?php echo $form->error($model,'body'); ?>
 	</div>
 

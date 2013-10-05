@@ -8,10 +8,10 @@
 return array(
   'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
   'name'=>'Федерация альпинизма Пензенской области и альпклуб "Пенза"',
-  
+
   // preloading 'log' component
   'preload'=>array('log'),
-  
+
   // autoloading model and component classes
   'import'=>array(
     'application.models.*',
@@ -21,9 +21,9 @@ return array(
     'ext.lightopenid.*',
     'ext.eauth.*',
     'ext.eauth.services.*',
-    'ext.redactor.*'
+    'ext.imperavi-redactor-widget.ImperaviRedactorWidget'
   ),
-  
+
   'modules'=>array(
     // uncomment the following to enable the Gii tool
     'gii'=>array(
@@ -32,8 +32,11 @@ return array(
       // If removed, Gii defaults to localhost only. Edit carefully to taste.
       'ipFilters'=>array('127.0.0.1','::1'),
     ),
+    'administration'=>array(
+        /// Здесь разместить параметры модуля
+    ),
   ),
-  
+
   // application components
   'components'=>array(
     'user'=>array(
@@ -163,7 +166,7 @@ return array(
 	  'client_id' => '...',
 	  'client_public' => '...',
 	  'client_secret' => '...',
-	  'title' => 'Odnokl.',
+	  'title' => 'Однокласники',
 	),
       ),
     ),
@@ -183,7 +186,7 @@ return array(
             ),
         ),
   ),
-  
+
   // application-level parameters that can be accessed
   // using Yii::app()->params['paramName']
   'params'=>array(

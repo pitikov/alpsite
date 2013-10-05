@@ -48,6 +48,7 @@ $this->breadcrumbs=array(
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Авторизироваться'); ?>
 	</div>
+	<div>Или воспользуйтесь формой <?php echo CHtml::link('регистрации пользователя', array('/user/registration')); ?>.</div>
 
 <?php $this->endWidget(); ?>
 </div><!-- form -->
@@ -56,7 +57,7 @@ $this->breadcrumbs=array(
         echo '<div class="error">'.Yii::app()->user->getFlash('error').'</div>';
     }
 ?>
-<h2>Если вы уже имеете регистрацию на нижеуказанных рессурсах, вы можете использовать ее:</h2>
+<h2>Если вы уже имеете регистрацию на нижеуказанных ресурсах, вы можете использовать ее:</h2>
 <?php
-    $this->widget('ext.eauth.EAuthWidget', array('action' => 'site/login'));
+    $this->widget('ext.eauth.EAuthWidget', array('action' => '/user/login'));
 ?>

@@ -17,6 +17,9 @@ class UserIdentity extends CUserIdentity
 	 */
 	public function authenticate()
 	{
+	    $user = SiteUser::model()->find('login=:Login',array(':Login'=>$this->username));
+
+
 		$users=array(
 			// username => password
 			'demo'=>'demo',
