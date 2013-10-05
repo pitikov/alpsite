@@ -20,6 +20,51 @@
 <link rel="stylesheet" href="/css/main.css" media="screen" />
 
 <style media="screen">
+	
+	html, body { padding: 0; margin: 0; height: 100%; width: 100%; }
+	
+	body {
+		font: normal 10.5pt/14pt "Lucida Grande", "Lucida Sans Unicode", Helvetica, Verdana, Arial, sans-serif;
+	}
+	
+	header {
+		position: absolute;
+		height: 230px;
+		width: 100%;
+		background: url("images/header-background.png") repeat-x;
+		border-bottom: solid 1px rgb(100, 145, 200);
+	}
+	
+	header #logo { position: absolute; top: 3px; left: 15px; background: url("images/logo.png") no-repeat; width: 163px; height: 217px; }
+	
+	nav#navigation {
+		position: absolute;
+		bottom: 20px;
+		left: 250px;
+	}
+	
+	nav#navigation a { 
+
+		font-size: 17pt; 
+		color: rgb(60, 85, 115);
+		margin-right: 20px;
+		cursor: pointer;
+		text-decoration: none;
+		border: none;
+		padding-bottom: 10px;
+	}
+
+	nav#navigation a:hover { border-bottom: 4px solid rgb(60, 85, 115); }
+
+	
+	section#main-section { 
+		position: absolute;
+		top: 232px;
+		bottom: 50px;
+		width: 100%;
+		background: url("images/content-background.png") repeat;
+	}
+	
 </style>
 
 <style media="handheld">
@@ -36,17 +81,22 @@
 </head>
 <body>
 	<header>
+		<div id="logo"></div>
+		<nav id="navigation" role="navigation">
+			<a>федерация</a>
+			<a>клуб</a>
+			<a>события</a>
+			<a>отчёты</a>
+			<a>горы мира</a>
+		</nav>
 	</header>
 
-	<nav role="navigation">
-	</nav>
-	
 	<aside>
 		<nav role="toolbar search">
 		</nav>
 	</aside>
 	
-	<section role="main">
+	<section id="main-section" role="main">
 	</section>
 
 	<footer role="contentinfo">
