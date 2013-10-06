@@ -17,7 +17,7 @@ class UserController extends Controller
 	protected function beforeAction($action)
 	{
 	    if (in_array($action->id, array('logout', 'profile')) and Yii::app()->user->isGuest) {
-		throw new CHttpException(400,'Нет доступа');
+		throw new CHttpException(401,'Требуется авторизация пользователя');
 	    }
 	    if (!Yii::app()->user->isGuest) {
 		$this->layout = '//layouts/column2';
@@ -48,42 +48,54 @@ class UserController extends Controller
 	*/
 	public function actionLogin()
 	{
+	    /// EOAuth авторизация
 	    $serviceName = Yii::app()->request->getQuery('service');
 	    if (isset($serviceName)) {
 		/** @var $eauth EAuthServiceBase */
+		
 		$eauth = Yii::app()->eauth->getIdentity($serviceName);
 		$eauth->redirectUrl = Yii::app()->user->returnUrl;
-		$eauth->cancelUrl = $this->createAbsoluteUrl('user/login');
+		$eauth->cancelUrl = $this->createAbsoluteUrl('/user/login');
+		
+		settype();
 
 		try {
 		    if ($eauth->authenticate()) {
 			//var_dump($eauth->getIsAuthenticated(), $eauth->getAttributes());
 			$identity = new EAuthUserIdentity($eauth);
 
-			// successful authentication
+			// успешная аутенфикация
 			if ($identity->authenticate()) {
+			    /** @TODO Реализовать нижеприведенный алгоритм авторизации:
+			    
+				1. Искать в БД (site_user_openid) запись с данной парой $serviceName/$identity->getId()
+			    
+			    */
+			
 			    Yii::app()->user->login($identity);
+			    
 			    //var_dump($identity->id, $identity->name, Yii::app()->user->id);exit;
 
-			    // special redirect with closing popup window
+			    // специальный вызов закрытия всплывающего окна
 			    $eauth->redirect();
 			} else {
-			    // close popup window and redirect to cancelUrl
+			    // Закрыть всплывающее оено и перейти к обработчику ошибки аутенфикации
 			    $eauth->cancel();
 			}
 		    }
 
-		    // Something went wrong, redirect to login page
-		    $this->redirect(array('user/login'));
+		    // в случае наличия проблемм возвращаемся на страницу авторизации
+		    $this->redirect(array('/user/login'));
 		}
 		catch (EAuthException $e) {
 		    // save authentication error to session
 		    Yii::app()->user->setFlash('error', 'EAuthException: '.$e->getMessage());
 
-		    // close popup window and redirect to cancelUrl
+		    // Закрыть всплывающее оено и перейти к обработчику ошибки аутенфикации
 		    $eauth->redirect($eauth->getCancelUrl());
 		}
 	    }
+	    
 	    $model=new LoginForm;
 
 	    // if it is ajax validation request
