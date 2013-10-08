@@ -67,10 +67,12 @@ class UserController extends Controller
 			// успешная аутенфикация
 			if ($identity->authenticate()) {
 			    /** @TODO Реализовать нижеприведенный алгоритм авторизации:
-			    
-				1. Искать в БД (site_user_openid) запись с данной парой $serviceName/$identity->getId()
-			    
-			    */
+                             * 1. Искать в БД (site_user_openid) запись с данной парой $serviceName/$identity->getId()
+                             * 2. Если если пара найденна, то произвести авторизацию найденным пользователем
+                             * 3. Иначе получить от EAuth информацию о пользователе, извлечь e-mail
+                             * 4. Искать пользователя по EMail
+                             * 5. Если пользователь найден, то авторизироваться данным пользователем и привязать e-mail
+                             */
 			
 			    Yii::app()->user->login($identity);
 			    
