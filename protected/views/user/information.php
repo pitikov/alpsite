@@ -2,13 +2,32 @@
 /* @var $this UserController */
 
 $this->breadcrumbs=array(
-	'User'=>array('/user'),
-	'Information',
+	'Пользователь'=>array('/user'),
+	$user->name,
 );
 ?>
-<h1><?php echo $this->id . '/' . $this->action->id; ?></h1>
-
-<p>
-	You may change the content of this page by modifying
-	the file <tt><?php echo __FILE__; ?></tt>.
-</p>
+<h1><?php echo $user->name;?></h1>
+<h2>Учетная запись</h2>
+<table>
+    <tbody>
+        <tr>
+            <td>Логин</td>
+            <td><?php echo $user->login;?></td>
+        </tr>
+        <tr>
+            <td>Имя</td>
+            <td><?php echo $user->name;?></td>
+        </tr>
+        <tr>
+            <td>e-mail</td>
+            <td><?php echo CHtml::link($user->mail,'mailto:'.$user->mail);?></td>
+        </tr>        
+    </tbody>
+</table>
+<?php
+    if (isset($dossier->uid)) {
+        echo '<h2>Досье</h2>';
+    } else {
+        echo '<tt>Досье не доступно</tt>';
+    }
+?>

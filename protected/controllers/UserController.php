@@ -40,7 +40,26 @@ class UserController extends Controller
 	*/
 	public function actionInformation($login)
 	{
-		$this->render('information');
+            $openIdList = array();
+            $dossier=array();
+            $climbingList=array();
+            $user = SiteUser::model()->find('login=:Login', array(':Login'=>$login));
+            if (isset($user->login)) {
+                $openIdList = SiteUserOpenid::model()->findAll(':Uid=uid', array(':Uid'=>$user->uid));
+                $dossier = LibUserDossier::model()->find(':Uid = uid', array(':Uid'=>$user->uid));
+                if (isset($dossier->id)) {
+                    $climbingList = LibClimbingList::model()->findAll(':Uid = member', array(':Uid'=>$dossier->id));
+                }
+                
+                
+                $this->render('information', array('user'=>$user, 
+                    'openId'=>$openIdList,
+                    'dossier'=>$dossier, 'climb'=>$climbingList
+                ));
+            } else {
+                throw new CHttpException(404, 'Данные участника '.$login.' не найденны');
+            }
+            
 	}
 
 	/** @fn actionLogin
