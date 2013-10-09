@@ -25,8 +25,6 @@
  */
 class SiteUser extends CActiveRecord
 {
-	public $password;
-	public $passwordConfirm;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -36,7 +34,7 @@ class SiteUser extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-
+	
 	/**
 	 * @return string the associated database table name
 	 */
@@ -53,7 +51,7 @@ class SiteUser extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('login, mail, name, pwdrestorequest', 'required'),
+			array('login, mail, name, pwdrestorequest, hash, requesthash', 'required'),
 			array('login', 'length', 'max'=>16),
 			array('mail, name, pwdrestorequest', 'length', 'max'=>128),
 			array('hash, requesthash', 'length', 'max'=>32),
@@ -89,17 +87,14 @@ class SiteUser extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'uid' => '#',
-			'login' => 'login',
-			'mail' => 'E-Mail',
-			'name' => 'Имя',
-			'pwdrestorequest' => 'Контрольный вопросс',
+			'uid' => 'Uid',
+			'login' => 'Login',
+			'mail' => 'Mail',
+			'name' => 'Name',
+			'pwdrestorequest' => 'Pwdrestorequest',
 			'hash' => 'Hash',
 			'requesthash' => 'Requesthash',
 			'accessrules' => 'Accessrules',
-			'password' => 'пароль',
-			'passwordConfirm' => 'подтверждение пароля',
-
 		);
 	}
 

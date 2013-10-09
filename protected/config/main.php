@@ -145,14 +145,14 @@ return array(
 	'vkontakte' => array(
 	  // register your app here: https://vk.com/editapp?act=create&site=1
 	  'class' => 'VKontakteOAuthService',
-	  'client_id' => '...',
-	  'client_secret' => '...',
+	  'client_id' => '3917964',
+	  'client_secret' => 'AE6VUAUvvPs3jAGq1QV4',
 	),
 	'mailru' => array(
 	  // register your app here: http://api.mail.ru/sites/my/add
 	  'class' => 'MailruOAuthService',
-	  'client_id' => '...',
-	  'client_secret' => '...',
+	  'client_id' => '711201',
+	  'client_secret' => '95a7a909655adf538d064827e5d676c',
 	),
 	'moikrug' => array(
 	  // register your app here: https://oauth.yandex.ru/client/my
