@@ -52,13 +52,11 @@ class UserController extends Controller
 	    $serviceName = Yii::app()->request->getQuery('service');
 	    if (isset($serviceName)) {
 		/** @var $eauth EAuthServiceBase */
-		
+
 		$eauth = Yii::app()->eauth->getIdentity($serviceName);
 		$eauth->redirectUrl = Yii::app()->user->returnUrl;
 		$eauth->cancelUrl = $this->createAbsoluteUrl('/user/login');
 		
-		settype();
-
 		try {
 		    if ($eauth->authenticate()) {
 			//var_dump($eauth->getIsAuthenticated(), $eauth->getAttributes());
@@ -73,9 +71,9 @@ class UserController extends Controller
                              * 4. Искать пользователя по EMail
                              * 5. Если пользователь найден, то авторизироваться данным пользователем и привязать e-mail
                              */
-			
+
 			    Yii::app()->user->login($identity);
-			    
+
 			    //var_dump($identity->id, $identity->name, Yii::app()->user->id);exit;
 
 			    // специальный вызов закрытия всплывающего окна
@@ -97,7 +95,7 @@ class UserController extends Controller
 		    $eauth->redirect($eauth->getCancelUrl());
 		}
 	    }
-	    
+
 	    $model=new LoginForm;
 
 	    // if it is ajax validation request
