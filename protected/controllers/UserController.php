@@ -38,12 +38,23 @@ class UserController extends Controller
 	*
 	* @param $login Учетное имя пользователя
 	*/
-	public function actionInformation($login)
+	public function actionInformation($persona)
 	{
+            $user = array();
             $openIdList = array();
-            $dossier=array();
             $climbingList=array();
-            $user = SiteUser::model()->find('login=:Login', array(':Login'=>$login));
+            
+            $dossier = LibUserDossier::model()->findByPk($persona);
+            if (isset($dossier->id)) {                
+                if (isset($dossier->uid)) {
+                    $user=  SiteUser::model()->findByPk($dossier->uid);
+                }
+                
+                $this->render('information', array('dossier'=>$dossier, 'user'=>$user));
+            } else {
+                throw new CHttpException(404, 'Данные не найденны');
+            }
+           /* $user = SiteUser::model()->find('login=:Login', array(':Login'=>$login));
             if (isset($user->login)) {
                 $openIdList = SiteUserOpenid::model()->findAll(':Uid=uid', array(':Uid'=>$user->uid));
                 $dossier = LibUserDossier::model()->find(':Uid = uid', array(':Uid'=>$user->uid));
@@ -59,6 +70,8 @@ class UserController extends Controller
             } else {
                 throw new CHttpException(404, 'Данные участника '.$login.' не найденны');
             }
+            * 
+            */
             
 	}
 
