@@ -24,12 +24,12 @@ class GoogleOpenIDService extends EOpenIDService {
 	protected $url = 'https://www.google.com/accounts/o8/id';
 	protected $requiredAttributes = array(
 		'name' => array('firstname', 'namePerson/first'),
-		//'lastname' => array('lastname', 'namePerson/last'),
-		//'email' => array('email', 'contact/email'),
-		//'language' => array('language', 'pref/language'),
+		'lastname' => array('lastname', 'namePerson/last'),
+		'email' => array('email', 'contact/email'),
+		'language' => array('language', 'pref/language'),
 	);
 
-	/*protected function fetchAttributes() {
-		$this->attributes['fullname'] = $this->attributes['name'].' '.$this->attributes['lastname'];
-	}*/
+	protected function fetchAttributes() {
+		$this->attributes['name'] = $this->attributes['name'].' '.$this->attributes['lastname'];
+	}
 }
