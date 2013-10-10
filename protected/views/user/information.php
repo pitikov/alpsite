@@ -45,7 +45,7 @@ $this->layout='/layouts/column1';
 ?>
 </div>
 <?php
-if (isset($climb->model)) {
+if ($climb->model->count()) {
   echo '<div id=\'climbing_list\'>';
 
   echo '<h2>Список восхождений</h2>';
@@ -67,16 +67,16 @@ echo '</div>';
 }
 if (isset($cmember->dossier)) {
 ?>
-    <div id='club_member'>;
-	<h2>Альпклуб "Пенза"</h2>;
+    <div id='club_member'>
+	<h2>Альпклуб "Пенза"</h2>
 	  <!-- Отобразить данные о членстве в АК Пенза-->
     </div>
 <?php
 }
-if (isset($cmember->dossier)) {
+if (isset($fmember->dossier)) {
 ?>
-    <div id='club_member'>;
-	<h2>Федерация альпинизма</h2>;
+    <div id='federation_member'>
+	<h2>Федерация альпинизма</h2>
 	  <!-- Отобразить данные о членстве в Федерации Альпинизма г.Пенза-->
     </div>
 <?php
@@ -103,7 +103,7 @@ if(isset($user->uid)) {
 <?php
 }
 
-if (isset($publications->model)) {
+if ($publications->model->count()) {
   echo '<h2>Список публикаций</h2>';
   $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider'=>$publications,
