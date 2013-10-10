@@ -60,7 +60,7 @@ class MountaineeringclubMember extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'dossier' => 'Dossier',
+			'dossier' => 'досье №',
 			'member_from' => 'член с (дата)',
 			'memer_to' => 'член по (дата)',
 			'mountaineeringclub_role' => 'занимаемая должность',

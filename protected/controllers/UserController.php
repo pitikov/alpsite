@@ -25,7 +25,6 @@ class UserController extends Controller
 	            array('label'=>'Профиль','url'=>array('/user/profile')),
 	            array('label'=>'Привязка соц.сетей','url'=>array('/user/openidattach')),
 	            array('label'=>'Выйти','url'=>array('/user/logout')),
-
 	        );
 	    }
 	    $ret = parent::beforeAction($action);
@@ -43,36 +42,44 @@ class UserController extends Controller
             $user = array();
             $openIdList = array();
             $climbingList=array();
-            
+            $fmember=array();
+            $cmember=array();
+            $publications=array();
+
             $dossier = LibUserDossier::model()->findByPk($persona);
-            if (isset($dossier->id)) {                
+            if (isset($dossier->id)) {
                 if (isset($dossier->uid)) {
-                    $user=  SiteUser::model()->findByPk($dossier->uid);
+                    $user = SiteUser::model()->findByPk($dossier->uid);
+                    if (isset($user->uid)) {
+			$publications = new CActiveDataProvider('ArticleBody', array(
+			    'criteria'=>array(
+			        'condition'=>'author='.$user->uid,
+			    ),
+			));
+                    }
+
+                    $climbingList = new CActiveDataProvider ('LibClimbingList', array(
+			'criteria'=>array(
+			    'condition'=>'member='.$dossier->id,
+			), 'pagination'=>array(
+			    'pageSize'=>50,
+			),
+                    ));
+                    $cmember = MountaineeringclubMember::model()->findByPk($dossier->id);
+                    $fmember = FederationMember::model()->findByPk($dossier->id);
                 }
-                
-                $this->render('information', array('dossier'=>$dossier, 'user'=>$user));
+
+                $this->render('information', array(
+		    'dossier'=>$dossier,
+		    'user'=>$user,
+		    'climb'=>$climbingList,
+		    'fmember'=>$fmember,
+		    'cmember'=>$cmember,
+		    'publications'=>$publications,
+		));
             } else {
-                throw new CHttpException(404, 'Данные не найденны');
+                throw new CHttpException(404, 'Данные не найдены');
             }
-           /* $user = SiteUser::model()->find('login=:Login', array(':Login'=>$login));
-            if (isset($user->login)) {
-                $openIdList = SiteUserOpenid::model()->findAll(':Uid=uid', array(':Uid'=>$user->uid));
-                $dossier = LibUserDossier::model()->find(':Uid = uid', array(':Uid'=>$user->uid));
-                if (isset($dossier->id)) {
-                    $climbingList = LibClimbingList::model()->findAll(':Uid = member', array(':Uid'=>$dossier->id));
-                }
-                
-                
-                $this->render('information', array('user'=>$user, 
-                    'openId'=>$openIdList,
-                    'dossier'=>$dossier, 'climb'=>$climbingList
-                ));
-            } else {
-                throw new CHttpException(404, 'Данные участника '.$login.' не найденны');
-            }
-            * 
-            */
-            
 	}
 
 	/** @fn actionLogin
@@ -88,7 +95,7 @@ class UserController extends Controller
 		$eauth = Yii::app()->eauth->getIdentity($serviceName);
 		$eauth->redirectUrl = Yii::app()->user->returnUrl;
 		$eauth->cancelUrl = $this->createAbsoluteUrl('/user/login');
-		
+
 		try {
 		    if ($eauth->authenticate()) {
 			//var_dump($eauth->getIsAuthenticated(), $eauth->getAttributes());
