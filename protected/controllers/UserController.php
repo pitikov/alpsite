@@ -25,22 +25,64 @@ class UserController extends Controller
 	            array('label'=>'Профиль','url'=>array('/user/profile')),
 	            array('label'=>'Привязка соц.сетей','url'=>array('/user/openidattach')),
 	            array('label'=>'Выйти','url'=>array('/user/logout')),
-
 	        );
 	    }
 	    $ret = parent::beforeAction($action);
 	    return $ret;
 	}
 
+	public function actionDossierList()
+	{
+	    $list = new CActiveDataProvider('LibUserDossier');
+	    $this->render('dossierlist', array('provider'=>$list));
+	}
 
 	/** @fn actionInformation
 	* @brief Получение публичной информации о пользователе
 	*
 	* @param $login Учетное имя пользователя
 	*/
-	public function actionInformation($login)
+	public function actionInformation($persona)
 	{
-		$this->render('information');
+            $user = array();
+            $openIdList = array();
+            $climbingList=array();
+            $publications=array();
+	    $cmember = MountaineeringclubMember::model()->findByPk($persona);
+            $fmember = FederationMember::model()->findByPk($persona);
+            $dossier = LibUserDossier::model()->findByPk($persona);
+
+            if (isset($dossier->id)) {
+                if (isset($dossier->uid)) {
+                    $user = SiteUser::model()->findByPk($dossier->uid);
+                    if (isset($user->uid)) {
+			$publications = new CActiveDataProvider('ArticleBody', array(
+			    'criteria'=>array(
+			        'condition'=>'author='.$user->uid,
+			    ),
+			));
+                    }
+
+                    $climbingList = new CActiveDataProvider ('LibClimbingList', array(
+			'criteria'=>array(
+			    'condition'=>'member='.$dossier->id,
+			), 'pagination'=>array(
+			    'pageSize'=>50,
+			),
+                    ));
+                }
+
+                $this->render('information', array(
+		    'dossier'=>$dossier,
+		    'user'=>$user,
+		    'climb'=>$climbingList,
+		    'fmember'=>$fmember,
+		    'cmember'=>$cmember,
+		    'publications'=>$publications,
+		));
+            } else {
+                throw new CHttpException(404, 'Данные не найдены');
+            }
 	}
 
 	/** @fn actionLogin
@@ -56,7 +98,7 @@ class UserController extends Controller
 		$eauth = Yii::app()->eauth->getIdentity($serviceName);
 		$eauth->redirectUrl = Yii::app()->user->returnUrl;
 		$eauth->cancelUrl = $this->createAbsoluteUrl('/user/login');
-		
+
 		try {
 		    if ($eauth->authenticate()) {
 			//var_dump($eauth->getIsAuthenticated(), $eauth->getAttributes());
@@ -69,7 +111,7 @@ class UserController extends Controller
                              * 2. Если если пара найденна, то произвести авторизацию найденным пользователем
                              * 3. Иначе получить от EAuth информацию о пользователе, извлечь e-mail
                              * 4. Искать пользователя по EMail
-                             * 5. Если пользователь найден, то авторизироваться данным пользователем и привязать e-mail
+                             * 5. Если пользователь найден, то авторизоваться данным пользователем и привязать e-mail
                              */
 
 			    Yii::app()->user->login($identity);
@@ -79,19 +121,19 @@ class UserController extends Controller
 			    // специальный вызов закрытия всплывающего окна
 			    $eauth->redirect();
 			} else {
-			    // Закрыть всплывающее оено и перейти к обработчику ошибки аутенфикации
+			    // Закрыть всплывающее оено и перейти к обработчику ошибки аутентификации
 			    $eauth->cancel();
 			}
 		    }
 
-		    // в случае наличия проблемм возвращаемся на страницу авторизации
+		    // в случае наличия проблем возвращаемся на страницу авторизации
 		    $this->redirect(array('/user/login'));
 		}
 		catch (EAuthException $e) {
 		    // save authentication error to session
 		    Yii::app()->user->setFlash('error', 'EAuthException: '.$e->getMessage());
 
-		    // Закрыть всплывающее оено и перейти к обработчику ошибки аутенфикации
+		    // Закрыть всплывающее окно и перейти к обработчику ошибки аутентификации
 		    $eauth->redirect($eauth->getCancelUrl());
 		}
 	    }
@@ -123,6 +165,7 @@ class UserController extends Controller
 	public function actionLogout()
 	{
 		Yii::app()->user->logout();
+		Yii::app()->user->
 		$this->redirect(Yii::app()->homeUrl);
 	}
 
