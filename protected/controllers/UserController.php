@@ -31,6 +31,11 @@ class UserController extends Controller
 	    return $ret;
 	}
 
+	public function actionDossierList()
+	{
+	    $list = new CActiveDataProvider('LibUserDossier');
+	    $this->render('dossierlist', array('provider'=>$list));
+	}
 
 	/** @fn actionInformation
 	* @brief Получение публичной информации о пользователе
@@ -42,11 +47,11 @@ class UserController extends Controller
             $user = array();
             $openIdList = array();
             $climbingList=array();
-            $fmember=array();
-            $cmember=array();
             $publications=array();
-
+	    $cmember = MountaineeringclubMember::model()->findByPk($persona);
+            $fmember = FederationMember::model()->findByPk($persona);
             $dossier = LibUserDossier::model()->findByPk($persona);
+
             if (isset($dossier->id)) {
                 if (isset($dossier->uid)) {
                     $user = SiteUser::model()->findByPk($dossier->uid);
@@ -65,8 +70,6 @@ class UserController extends Controller
 			    'pageSize'=>50,
 			),
                     ));
-                    $cmember = MountaineeringclubMember::model()->findByPk($dossier->id);
-                    $fmember = FederationMember::model()->findByPk($dossier->id);
                 }
 
                 $this->render('information', array(
@@ -108,7 +111,7 @@ class UserController extends Controller
                              * 2. Если если пара найденна, то произвести авторизацию найденным пользователем
                              * 3. Иначе получить от EAuth информацию о пользователе, извлечь e-mail
                              * 4. Искать пользователя по EMail
-                             * 5. Если пользователь найден, то авторизироваться данным пользователем и привязать e-mail
+                             * 5. Если пользователь найден, то авторизоваться данным пользователем и привязать e-mail
                              */
 
 			    Yii::app()->user->login($identity);
@@ -118,19 +121,19 @@ class UserController extends Controller
 			    // специальный вызов закрытия всплывающего окна
 			    $eauth->redirect();
 			} else {
-			    // Закрыть всплывающее оено и перейти к обработчику ошибки аутенфикации
+			    // Закрыть всплывающее оено и перейти к обработчику ошибки аутентификации
 			    $eauth->cancel();
 			}
 		    }
 
-		    // в случае наличия проблемм возвращаемся на страницу авторизации
+		    // в случае наличия проблем возвращаемся на страницу авторизации
 		    $this->redirect(array('/user/login'));
 		}
 		catch (EAuthException $e) {
 		    // save authentication error to session
 		    Yii::app()->user->setFlash('error', 'EAuthException: '.$e->getMessage());
 
-		    // Закрыть всплывающее оено и перейти к обработчику ошибки аутенфикации
+		    // Закрыть всплывающее окно и перейти к обработчику ошибки аутентификации
 		    $eauth->redirect($eauth->getCancelUrl());
 		}
 	    }
@@ -162,6 +165,7 @@ class UserController extends Controller
 	public function actionLogout()
 	{
 		Yii::app()->user->logout();
+		Yii::app()->user->
 		$this->redirect(Yii::app()->homeUrl);
 	}
 

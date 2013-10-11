@@ -1,7 +1,7 @@
 <?php
 /** @var $this UserController */
 $this->breadcrumbs=array(
-	'Пользователь'=>array('/user'),
+	'Персоны'=>array('/user/dossierlist'),
 	$dossier->name,
 );
 
@@ -45,7 +45,7 @@ $this->layout='/layouts/column1';
 ?>
 </div>
 <?php
-if ($climb->model->count()) {
+if (isset($climb->model)) {
   echo '<div id=\'climbing_list\'>';
 
   echo '<h2>Список восхождений</h2>';
@@ -65,19 +65,35 @@ if ($climb->model->count()) {
 echo '</div>';
 
 }
-if (isset($cmember->dossier)) {
-?>
-    <div id='club_member'>
-	<h2>Альпклуб "Пенза"</h2>
-	  <!-- Отобразить данные о членстве в АК Пенза-->
-    </div>
-<?php
-}
 if (isset($fmember->dossier)) {
 ?>
     <div id='federation_member'>
 	<h2>Федерация альпинизма</h2>
-	  <!-- Отобразить данные о членстве в Федерации Альпинизма г.Пенза-->
+	Является членом c <?php echo $fmember->member_from; ?> по <?php echo isset($fmember->member_to) ? $fmember->member_to : 'настоящее время.' ;?>
+	<br/>
+	<?php
+	    if (isset($fmember->federation_role)) {
+		echo 'Занимаемая должность: '.$fmember->federationRole->role;
+	    }
+	?>
+	<br/>
+	<?php echo $fmember->special_service; ?>
+    </div>
+<?php
+}
+if (isset($cmember->dossier)) {
+?>
+    <div id='club_member'>
+	<h2>Альпклуб Пенза</h2>
+	Является членом c <?php echo $cmember->member_from; ?> по <?php echo isset($cmember->member_to) ? $cmember->member_to : 'настоящее время.' ;?>
+	<br/>
+	<?php
+	    if (isset($cmember->federation_role)) {
+		echo 'Занимаемая должность: '.$cmember->federationRole->role;
+	    }
+	?>
+	<br/>
+	<?php echo $cmember->special_service; ?>
     </div>
 <?php
 }
@@ -103,7 +119,7 @@ if(isset($user->uid)) {
 <?php
 }
 
-if ($publications->model->count()) {
+if (isset($publications->model)) {
   echo '<h2>Список публикаций</h2>';
   $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider'=>$publications,
