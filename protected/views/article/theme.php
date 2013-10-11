@@ -1,14 +1,31 @@
 <?php
 /* @var $this ArticleController */
-
+$this->layout='//layouts/column1';
 $this->breadcrumbs=array(
-	'Article'=>array('/article'),
-	'Theme',
+	'Статьи'=>array('/article/themelist'),
+	$arttheme
 );
 ?>
-<h1><?php echo $this->id . '/' . $this->action->id; ?></h1>
+<h1><?php echo $arttheme; ?></h1>
 
 <p>
-	You may change the content of this page by modifying
-	the file <tt><?php echo __FILE__; ?></tt>.
+<?php
+  $this->widget('zii.widgets.grid.CGridView', array(
+      'dataProvider'=>$articles,
+      'columns'=>array(
+	  array(
+	      'name'=>'title',
+	      'class'=>'ArticleGridLink',
+	  ),array(
+	      'name'=>'author0.name',
+	      'header'=>'автор'
+	  ),array(
+	      'name'=>'timestamp',
+	  ),array(
+	      'name'=>'brief',
+	      'header'=>'кратко'
+	  ),
+      ),
+  ));
+?>
 </p>

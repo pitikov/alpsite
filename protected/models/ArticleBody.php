@@ -72,6 +72,7 @@ class ArticleBody extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'theme0' => array(self::BELONGS_TO, 'ArticleTheme', 'theme'),
+			'author0' => array(self::BELONGS_TO, 'SiteUser', 'author'),
 			'articleComments' => array(self::HAS_MANY, 'ArticleComment', 'artid'),
 			'articleSubmits' => array(self::HAS_MANY, 'ArticleSubmit', 'artid'),
 			'federationCalendarArticles' => array(self::HAS_MANY, 'FederationCalendarArticle', 'article'),

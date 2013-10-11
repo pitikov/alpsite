@@ -1,14 +1,23 @@
 <?php
 /* @var $this ArticleController */
+$this->layout='//layouts/column1';
 
 $this->breadcrumbs=array(
-	'Article'=>array('/article'),
-	'Themelist',
+	'Статьи'=>array('/article/themelist'),
 );
 ?>
-<h1><?php echo $this->id . '/' . $this->action->id; ?></h1>
+<h1>Список тем</h1>
 
-<p>
-	You may change the content of this page by modifying
-	the file <tt><?php echo __FILE__; ?></tt>.
-</p>
+<?php
+/// @TODO Преобразовать модель данных к виду дерево. Для отображения использовать дерево
+    $this->widget('zii.widgets.grid.CGridView', array(
+      'dataProvider'=>$themelist,
+      'columns'=>array(
+	array(
+	  'name'=>'title',
+	  'class'=>'ArticleThemeGridLink',
+	  'header'=>'Тематика статей'
+	),
+      ),
+  ));
+?>

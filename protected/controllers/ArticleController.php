@@ -21,17 +21,29 @@ class ArticleController extends Controller
 
 	public function actionTheme($themeid)
 	{
-		$this->render('theme');
+	    $arttheme = ArticleTheme::model()->findByPk($themeid)->title;
+	    $articles = new CActiveDataProvider('ArticleBody', array(
+		'criteria'=>array(
+		    'condition'=>'theme='.$themeid,
+		)
+	    ));
+	    $this->render('theme', array('arttheme'=>$arttheme ,'articles'=>$articles));
 	}
 
 	public function actionThemelist()
 	{
-		$this->render('themelist');
+	    $themes = new CActiveDataProvider('ArticleTheme');
+	    $this->render('themelist',array('themelist'=>$themes));
 	}
 
 	public function actionView($artid)
 	{
-		$this->render('view');
+	    $article = ArticleBody::model()->findByPk($artid);
+	    if (isset($article->body)) {
+		$this->render('view', array('article'=>$article));
+	    } else {
+		throw new CHttpException(404,'Запрашиваемая статья не найдена');
+	    }
 	}
 
 	// Uncomment the following methods and override them if needed
