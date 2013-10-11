@@ -186,7 +186,7 @@ create table if not exists `federation_role` (
 create table if not exists `federation_member` (
 	`dossier` integer primary key,
 	`member_from` date not null comment 'член с (дата)',
-	`memer_to` date default null comment 'член по (дата)',
+	`memberr_to` date default null comment 'член по (дата)',
 	`federation_role` integer default null comment 'занимаемая должность',
 	`special_service` text default null comment 'Особые заслуги',
 	key `fk_federation_member_dossier` (`dossier`),
@@ -236,7 +236,7 @@ create table if not exists `mountaineeringclub_role` (
 create table if not exists `mountaineeringclub_member` (
 	`dossier` integer primary key,
 	`member_from` date not null comment 'член с (дата)',
-	`memer_to` date default null comment 'член по (дата)',
+	`member_to` date default null comment 'член по (дата)',
 	`mountaineeringclub_role` integer default null comment 'занимаемая должность',
 	`special_service` text default null comment 'Особые заслуги',
 	key `fk_mountaineeringclub_member_dossier` (`dossier`),

@@ -6,7 +6,7 @@
  * The followings are the available columns in table 'mountaineeringclub_member':
  * @property integer $dossier
  * @property string $member_from
- * @property string $memer_to
+ * @property string $member_to
  * @property integer $mountaineeringclub_role
  * @property string $special_service
  *
@@ -34,10 +34,10 @@ class MountaineeringclubMember extends CActiveRecord
 		return array(
 			array('dossier, member_from', 'required'),
 			array('dossier, mountaineeringclub_role', 'numerical', 'integerOnly'=>true),
-			array('memer_to, special_service', 'safe'),
+			array('member_to, special_service', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('dossier, member_from, memer_to, mountaineeringclub_role, special_service', 'safe', 'on'=>'search'),
+			array('dossier, member_from, member_to, mountaineeringclub_role, special_service', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,7 +62,7 @@ class MountaineeringclubMember extends CActiveRecord
 		return array(
 			'dossier' => 'досье №',
 			'member_from' => 'член с (дата)',
-			'memer_to' => 'член по (дата)',
+			'member_to' => 'член по (дата)',
 			'mountaineeringclub_role' => 'занимаемая должность',
 			'special_service' => 'Особые заслуги',
 		);
@@ -88,7 +88,7 @@ class MountaineeringclubMember extends CActiveRecord
 
 		$criteria->compare('dossier',$this->dossier);
 		$criteria->compare('member_from',$this->member_from,true);
-		$criteria->compare('memer_to',$this->memer_to,true);
+		$criteria->compare('member_to',$this->member_to,true);
 		$criteria->compare('mountaineeringclub_role',$this->mountaineeringclub_role);
 		$criteria->compare('special_service',$this->special_service,true);
 

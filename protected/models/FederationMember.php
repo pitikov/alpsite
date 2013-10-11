@@ -6,7 +6,7 @@
  * The followings are the available columns in table 'federation_member':
  * @property integer $dossier
  * @property string $member_from
- * @property string $memer_to
+ * @property string $member_to
  * @property integer $federation_role
  * @property string $special_service
  *
@@ -34,10 +34,10 @@ class FederationMember extends CActiveRecord
 		return array(
 			array('dossier, member_from', 'required'),
 			array('dossier, federation_role', 'numerical', 'integerOnly'=>true),
-			array('memer_to, special_service', 'safe'),
+			array('member_to, special_service', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('dossier, member_from, memer_to, federation_role, special_service', 'safe', 'on'=>'search'),
+			array('dossier, member_from, member_to, federation_role, special_service', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,7 +62,7 @@ class FederationMember extends CActiveRecord
 		return array(
 			'dossier' => 'Dossier',
 			'member_from' => 'член с (дата)',
-			'memer_to' => 'член по (дата)',
+			'member_to' => 'член по (дата)',
 			'federation_role' => 'занимаемая должность',
 			'special_service' => 'Особые заслуги',
 		);
@@ -88,7 +88,7 @@ class FederationMember extends CActiveRecord
 
 		$criteria->compare('dossier',$this->dossier);
 		$criteria->compare('member_from',$this->member_from,true);
-		$criteria->compare('memer_to',$this->memer_to,true);
+		$criteria->compare('member_to',$this->member_to,true);
 		$criteria->compare('federation_role',$this->federation_role);
 		$criteria->compare('special_service',$this->special_service,true);
 
