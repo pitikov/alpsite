@@ -20,16 +20,16 @@ create table if not exists `site_user` (
 create table if not exists `site_user_openid` (
 	`id` integer primary key auto_increment,
 	`uid` integer not null comment 'указатель на запись пользователя',
-	`service` varchar(50) not null,
-	`token` varchar(64)  not null,
+	`service` varchar(50) not null comment 'Имя сервиса аутенфикации',
+	`token` varchar(32)  not null comment 'свертка от ключа OpenId',
 	key `fk_site_user_openid` (`uid`),
 	constraint `fk_site_user_openid` foreign key (`uid`) references `site_user`(`uid`) on update cascade on delete cascade,
 	constraint `unq_site_openid` unique (`service`,`token`) comment 'Делаем привязку к OpenId уникальной'
 ) engine = innodb comment 'Таблица токенов OpenId и OpenAuth';
 
--- Таблца восстановлений пароля. Заполняется при запроссе восстановления пароля и 
--- успешном ответе на контрольный вопрос. Запись таблицы удаляется при входе 
--- пользователя на сайт. Аттрибут rndprefix является динамически формируемой 
+-- Таблца восстановлений пароля. Заполняется при запроссе восстановления пароля и
+-- успешном ответе на контрольный вопрос. Запись таблицы удаляется при входе
+-- пользователя на сайт. Аттрибут rndprefix является динамически формируемой
 -- частью url страницы восстановления.
 create table if not exists `site_pwdrequest` (
 	`uid` integer not null unique primary key comment 'указатель на запись пользователя',
@@ -48,9 +48,9 @@ create table if not exists `article_theme` (
 ) engine = innodb comment 'Темы статей';
 
 -- Таблица модераторов
--- связывает тему статей с пользователем, назначенным модератором, 
--- по умолчанию тем кто создал тему, однако предусматреть редактирование 
--- списка модераторов. Модератор будет получать оповещения о публикациях и 
+-- связывает тему статей с пользователем, назначенным модератором,
+-- по умолчанию тем кто создал тему, однако предусматреть редактирование
+-- списка модераторов. Модератор будет получать оповещения о публикациях и
 -- комментариях в теме.
 create table if not exists `article_moderator` (
 	`id` integer primary key,
@@ -127,7 +127,7 @@ create table if not exists `article_theme_submit` (
 create table if not exists `lib_user_dossier` (
 	`id` integer primary key auto_increment,
 	`uid` integer default null comment 'привязка к учетке пользователя сайта',
-	`name` varchar(128) not null comment 'Имя Фамилия отчество',
+	`name` varchar(128) not null comment 'Имя Фамилия Отчество',
 	`date_of_bethday` date default null comment 'День рождения',
 	`sport_range` enum (
 		'не имеет',
@@ -138,7 +138,7 @@ create table if not exists `lib_user_dossier` (
 		'мастер спорта',
 		'заслуженный мастер спорта'
 	) default null comment 'текущий разряд',
-	`mountain_resque` bool default null comment 'жетон спасение в горах',
+	`mountain_resque` integer default null comment '№ жетона спасение в горах',
 	`mountain_guide` enum (
 		'не имеет',
 		'стажер',
@@ -172,8 +172,8 @@ create table if not exists `lib_climbing_list` (
 ) engine = innodb comment 'список восхождений';
 
 -- @@TODO@@
--- В настоящий момент информация о членах федерации и членах клуба почти полностью 
--- идентична, хотя предполагается что должны быть различия - вопросс требует 
+-- В настоящий момент информация о членах федерации и членах клуба почти полностью
+-- идентична, хотя предполагается что должны быть различия - вопросс требует
 -- проработки
 -- ************************ ФЕДЕРАЦИЯ **************************
 -- должности в федерации
@@ -186,7 +186,7 @@ create table if not exists `federation_role` (
 create table if not exists `federation_member` (
 	`dossier` integer primary key,
 	`member_from` date not null comment 'член с (дата)',
-	`memer_to` date default null comment 'член по (дата)',
+	`memberr_to` date default null comment 'член по (дата)',
 	`federation_role` integer default null comment 'занимаемая должность',
 	`special_service` text default null comment 'Особые заслуги',
 	key `fk_federation_member_dossier` (`dossier`),
@@ -236,7 +236,7 @@ create table if not exists `mountaineeringclub_role` (
 create table if not exists `mountaineeringclub_member` (
 	`dossier` integer primary key,
 	`member_from` date not null comment 'член с (дата)',
-	`memer_to` date default null comment 'член по (дата)',
+	`member_to` date default null comment 'член по (дата)',
 	`mountaineeringclub_role` integer default null comment 'занимаемая должность',
 	`special_service` text default null comment 'Особые заслуги',
 	key `fk_mountaineeringclub_member_dossier` (`dossier`),
