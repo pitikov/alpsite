@@ -2,4 +2,5 @@
 /assets/
 /protected/runtime/
 /themes/classic/views/
-
+*.kdev4
+*.kate-swp

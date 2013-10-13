@@ -14,7 +14,7 @@ create table if not exists `site_user` (
 	`pwdrestorequest` varchar(128) not null comment 'Текст контрольного вопросса',
 	`hash` varchar(32) not null comment 'hash-свертка пароля',
 	`requesthash` varchar(32) not null comment 'hash-свертка ответа на контрольный вопросс',
-	`accessrules` set('site_member','federation_member', 'club_member') comment 'Регулирование доступа к разделам сайта на базе членства'
+	`accessrules` set('site_member','federation_member', 'club_member','site_admin') comment 'Регулирование доступа к разделам сайта на базе членства'
 ) engine = innodb comment 'Таблица пользователей сайта';
 
 create table if not exists `site_user_openid` (
@@ -137,7 +137,7 @@ create table if not exists `lib_user_dossier` (
 		'кандидат в мастера спорта',
 		'мастер спорта',
 		'заслуженный мастер спорта'
-	) default null comment 'текущий разряд',
+	) default 'не имеет' comment 'текущий разряд',
 	`mountain_resque` integer default null comment '№ жетона спасение в горах',
 	`mountain_guide` enum (
 		'не имеет',
@@ -145,7 +145,7 @@ create table if not exists `lib_user_dossier` (
 		'III категория',
 		'II категория',
 		'I категория'
-	) default null comment 'текущая инструкторская категория',
+	) default 'не имеет' comment 'текущая инструкторская категория',
 	`about` text default null comment 'Данные о участнике',
 	`photo` varchar(128) default null comment 'путь к файлу фотографии',
 	key `fk_user_dossier_uid` (`uid`),
@@ -182,6 +182,14 @@ create table if not exists `federation_role` (
 	`role` varchar(50) comment 'должность'
 ) engine innodb comment 'должности в федерации';
 
+insert into `federation_role` (`role`) values 
+('Председатель федерации'), 
+('вице-председатель'), 
+('Член совета'), 
+('Контролер'),
+('Главный тренер'),
+('Почетный член');
+
 -- члены федерации
 create table if not exists `federation_member` (
 	`dossier` integer primary key,
@@ -200,6 +208,8 @@ create table if not exists `federation_documents` (
 	`artid` integer primary key,
 	constraint `fk_federation_documents` foreign key (`artid`) references `article_body`(`artid`) on update cascade on delete cascade
 ) engine = innodb comment 'Документы на странице федерации';
+
+insert into `article_theme` (`title`) values ('Федерация Альпинизма Пензенской области');
 
 create table if not exists `federation_calendar` (
 	`id` integer primary key auto_increment,
@@ -231,6 +241,11 @@ create table if not exists `mountaineeringclub_role` (
 	`id` integer primary key auto_increment,
 	`role` varchar(50) comment 'должность'
 ) engine innodb comment 'должности в федерации';
+ 
+insert into `mountaineeringclub_role` (`role`) values
+('Старший тренер'),
+('Тренер'),
+('Почетный член клуба');
 
 -- члены клуба
 create table if not exists `mountaineeringclub_member` (
@@ -250,6 +265,8 @@ create table if not exists `mountaineeringclub_documents` (
 	`artid` integer primary key,
 	constraint `fk_mountaineeringclub_documents` foreign key (`artid`) references `article_body`(`artid`) on update cascade on delete cascade
 ) engine = innodb comment 'Документы на странице альпклуба';
+
+insert into `article_theme` (`title`) values ('Альпклуб "Пенза"');
 
 -- Календарь мероприятий клуба
 create table if not exists `mountaineeringclub_calendar` (
