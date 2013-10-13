@@ -20,8 +20,8 @@ create table if not exists `site_user` (
 create table if not exists `site_user_openid` (
 	`id` integer primary key auto_increment,
 	`uid` integer not null comment 'указатель на запись пользователя',
-	`service` varchar(50) not null,
-	`token` varchar(64)  not null,
+	`service` varchar(50) not null comment 'Имя сервиса аутенфикации',
+	`token` varchar(32)  not null comment 'свертка от ключа OpenId',
 	key `fk_site_user_openid` (`uid`),
 	constraint `fk_site_user_openid` foreign key (`uid`) references `site_user`(`uid`) on update cascade on delete cascade,
 	constraint `unq_site_openid` unique (`service`,`token`) comment 'Делаем привязку к OpenId уникальной'

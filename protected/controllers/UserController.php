@@ -114,7 +114,7 @@ class UserController extends Controller
                              */
                              
                              $OpenId = SiteUserOpenid::model()->findByAttributes(array(
-                                 'service'=>$serviceName, 'token'=>$eauth->id
+                                 'service'=>$serviceName, 'token'=>md5($eauth->id)
                              ));
                              if (isset($OpenId->uid)) {
 				// Нашел привязку к учетной записи на сайте
@@ -129,7 +129,7 @@ class UserController extends Controller
 					$OpenId = new SiteUserOpenid;
 					$OpenId->uid = $siteUser->uid;
 					$OpenId->service = $serviceName;
-					$OpenId->token = $eauth->id;
+					$OpenId->token = md5($eauth->id);
 					$OpenId->save();
 				    } else {
 					// не удалось отождествить пользователя.
@@ -143,17 +143,17 @@ class UserController extends Controller
 					$siteUser->pwdrestorequest = 'openid';
 					$siteUser->requesthash = 'openid';
 					if ($siteUser->save()) {
-					    $siteUser = SiteUser::model()->findByAttributes(array('mail'=>$attributes['email']));
+					    //$siteUser = SiteUser::model();
+					    $siteUser->refresh();
 					    if (isset($siteUser->uid)) {
 						$OpenId = new SiteUserOpenid;
 						$OpenId->uid = $siteUser->uid;
 						$OpenId->service = $serviceName;
-						$OpenId->token = $eauth->id;
-						if (!$OpenId->save()) die('OpenId relation error');
-					    } else die ('get user');
+						$OpenId->token = md5($eauth->id);
+						if (!$OpenId->save()) throw new CHttpException(418,'Ошибка сохранения данных вз БД');
+					    } else throw new CHttpException(418,'Ошибка получения данных из БД');
 					} else {
-					    var_dump ($siteUser->getErrors());
-					    die('User registration error');
+					    throw new CHttpException(401,'Ошибка авторизации пользователя');
 					}
 				    }
 				} 
@@ -209,6 +209,7 @@ class UserController extends Controller
 	*/
 	public function actionLogout()
 	{
+	$auth = new EAuth;
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
 	}
