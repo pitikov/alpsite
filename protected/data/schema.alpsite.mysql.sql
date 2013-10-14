@@ -44,7 +44,10 @@ create table if not exists `article_theme` (
 	`id` integer primary key auto_increment,
 	`title` varchar(128) not null unique comment 'названия тем',
 	`icon` varchar(128) default null comment 'иконка', -- вопросс необходимости
-	`iscommentenable` bool default true comment 'Разрешение комментариев в теме' -- вопросс необходимости
+	`parent` integer default null comment 'указатель на родительскую тему',
+	`iscommentenable` bool default true comment 'Разрешение комментариев в теме', -- вопросс необходимости
+	key `fk_article_theme_parent` (`parent`),
+	constraint `fk_article_theme_parent` foreign key (`parent`) references `article_theme` (`id`) on update cascade on delete cascade
 ) engine = innodb comment 'Темы статей';
 
 -- Таблица модераторов
@@ -182,10 +185,10 @@ create table if not exists `federation_role` (
 	`role` varchar(50) comment 'должность'
 ) engine innodb comment 'должности в федерации';
 
-insert into `federation_role` (`role`) values 
-('Председатель федерации'), 
-('вице-председатель'), 
-('Член совета'), 
+insert into `federation_role` (`role`) values
+('Председатель федерации'),
+('вице-председатель'),
+('Член совета'),
 ('Контролер'),
 ('Главный тренер'),
 ('Почетный член');
@@ -241,7 +244,7 @@ create table if not exists `mountaineeringclub_role` (
 	`id` integer primary key auto_increment,
 	`role` varchar(50) comment 'должность'
 ) engine innodb comment 'должности в федерации';
- 
+
 insert into `mountaineeringclub_role` (`role`) values
 ('Старший тренер'),
 ('Тренер'),

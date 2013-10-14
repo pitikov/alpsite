@@ -191,7 +191,11 @@ return array(
 	    // Роль по умолчанию. Все, кто не админы, модераторы и юзеры — гости.
 	    'defaultRoles' => array('guest'),
 	),
+	'user'=> array(
+	    'class'=>'AlpsiteUser',
+	),
   ),
+
 
   // application-level parameters that can be accessed
   // using Yii::app()->params['paramName']
