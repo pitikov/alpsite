@@ -120,12 +120,14 @@ return array(
 	  'client_secret' => '...',
 	  'title' => 'Yandex (OAuth)',
 	),
+	/*/
 	'facebook' => array(
 	  // register your app here: https://developers.facebook.com/apps/
 	  'class' => 'FacebookOAuthService',
 	  'client_id' => '...',
 	  'client_secret' => '...',
 	),
+	/*/
 	'linkedin' => array(
 	  // register your app here: https://www.linkedin.com/secure/developer
 	  'class' => 'LinkedinOAuthService',
@@ -144,6 +146,7 @@ return array(
 	  'client_id' => '...',
 	  'client_secret' => '...',
 	),
+	/*/
 	'vkontakte' => array(
 	  // register your app here: https://vk.com/editapp?act=create&site=1
 	  'class' => 'VKontakteOAuthService',
@@ -156,6 +159,7 @@ return array(
 	  'client_id' => '711201',
 	  'client_secret' => '95a7a909655adf538d064827e5d676c',
 	),
+	/*/
 	'moikrug' => array(
 	  // register your app here: https://oauth.yandex.ru/client/my
 	  'class' => 'MoikrugOAuthService',

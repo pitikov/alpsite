@@ -5,6 +5,9 @@
             parent::init();
         }
 
+        /** @fn login
+        * @brief Авториязация пользователя в системе
+        */
         public function login($identity, $duration = 0)
         {
             $ret = parent::login($identity, $duration);
