@@ -64,7 +64,7 @@ If you have business inquiries or other questions, please fill out the following
 			'attribute' => 'body',
 
 			// or just for input field
-			'name' => 'my_input_name',
+			'name' => 'message_body',
 
 			// Some options, see http://imperavi.com/redactor/docs/
 			'options' => array(

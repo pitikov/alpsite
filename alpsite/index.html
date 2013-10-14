@@ -17,54 +17,112 @@
 
 <link rel="Shortcut Icon" type="image/x-icon" href="favicon.ico" size="16x16"/>
 
-<link rel="stylesheet" href="/css/main.css" media="screen" />
+<!--
+<link rel="stylesheet" href="css/main.css" media="screen" />
+-->
+
+<script src="javascript/jquery.min.js" type="text/javascript"></script>
 
 <style media="screen">
+	
+	* { box-sizing: border-box; }
 	
 	html, body { padding: 0; margin: 0; height: 100%; width: 100%; }
 	
 	body {
 		font: normal 10.5pt/14pt "Lucida Grande", "Lucida Sans Unicode", Helvetica, Verdana, Arial, sans-serif;
+		background: url("images/content-background.png") repeat;
 	}
 	
 	header {
 		position: absolute;
-		height: 230px;
-		width: 100%;
-		background: url("images/header-background.png") repeat-x;
-		border-bottom: solid 1px rgb(100, 145, 200);
+		width: 230px;
+		height: 100%;
+		z-index: 10;
+		background: rgb(35, 35, 35);
+//		background: url("images/submenu-background.png") repeat-y;
+		box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.15);
 	}
 	
-	header #logo { position: absolute; top: 3px; left: 15px; background: url("images/logo.png") no-repeat; width: 163px; height: 217px; }
-	
-	nav#navigation {
+	#copyright { position: absolute; bottom: 10px; padding: 0 10px; font-size: 9pt; color: rgb(60, 85, 115); z-index:15; }
+	#logo { height: 250px; position: relative; left: 50%; margin-left: -35%; width: 70%; }
+	#logo img { width: 100%; position: absolute; bottom: 20px; }
+
+	nav#main-navigation {
 		position: absolute;
-		bottom: 20px;
-		left: 250px;
+		top: 0px;
+		bottom: 0px;
+		width: 100%;
+		height: 100%;
+		background: url("images/header-background.png") repeat-y;
+		z-index: 11;
 	}
 	
-	nav#navigation a { 
-
-		font-size: 17pt; 
+	nav#main-navigation a.main-item { 
+		display: block;
+		min-height: 50px;
+		padding: 15px 22px;
+		overflow: hidden;
+		margin-bottom: 1px;
+		font-size: 17pt;
 		color: rgb(60, 85, 115);
-		margin-right: 20px;
-		cursor: pointer;
-		text-decoration: none;
-		border: none;
-		padding-bottom: 10px;
+		background: rgba(60, 85, 115, 0.08);
 	}
 
-	nav#navigation a:hover { border-bottom: 4px solid rgb(60, 85, 115); }
+	nav#main-navigation a.main-item:hover { background: rgba(255, 255, 255, 0.35); }
 
+	nav a img.icon {  width: 20px; height: 20px; margin-right: 7px; position: relative; top: 3px; }
+	
+	nav#main-navigation .sub-menu { position: absolute; left: 70px; z-index: 12; margin-left: -9999px;}
+	nav#main-navigation .sub-menu a { 
+		display: block;
+		min-height: 50px;
+		width: 160px;
+		padding: 15px 15px;
+		margin-bottom: 1px;
+		font-size: 12pt;
+		color: rgb(150, 150, 150);
+		background: rgb(50, 50, 50);
+	}
+	nav#main-navigation .sub-menu a:hover { color: white; }
+	
+	nav#toolbar {
+//		background: rgba(173, 197, 227, 0.45);
+		background: url("images/header-background.png") repeat-x;
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		padding: 15px;
+		border-bottom-left-radius: 10px;
+		box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+		opacity: 0.7;
+		z-index: 10;
+	}
+	
+	nav#toolbar:hover { opacity: 0.95; }
+
+	nav#toolbar a { height: 20px; margin-right: 15px; }
+	nav#toolbar a span { display: none; }
+	nav#toolbar a input#search-field { max-height: 20px; }
+	
+	nav#toolbar #search-field { border-radius: 10px; border: solid 1px navy; font-size: 11pt; padding-left: 7px; }
 	
 	section#main-section { 
 		position: absolute;
-		top: 232px;
-		bottom: 50px;
-		width: 100%;
-		background: url("images/content-background.png") repeat;
+		top: 0px;
+		bottom: 0px;
+		left:	230px;
+		right: 0px;
+		overflow-y: scroll;
+//		width: 100%;
 	}
 	
+	section#main-section article { max-width: 1000px; 	padding: 25px; }
+	
+	footer { padding: 25px; border-top: solid 1px wheat; background: rgba(245, 222, 179, 0.1); }
+
+	a { cursor: pointer; text-decoration: none; }
+
 </style>
 
 <style media="handheld">
@@ -74,34 +132,101 @@
 </style>
 
 <script type="text/javascript">
-<!-- -->
+<!--	
+$(document).ready(function() {
+
+	$('#toolbar a').on('mouseenter', function() {
+//		$(this).find('input').stop();
+		if ($(this).find('span').css('display') == 'none') $(this).find('span').show('fast');
+	});
+	
+	$('#toolbar').on('mouseleave', function() {
+		$('#toolbar a span').stop().hide('fast');
+	});
+	
+	$('nav#main-navigation .menu-transform').on('mouseenter', function() {
+		$(this).find('.sub-menu').css('margin-left', '0px');
+		$('header a span').stop().hide(100);
+		$('header #logo').stop().animate({'width': '90%', 'margin-left': '-45%'}, 100);
+		$('nav#main-navigation').stop().animate({'width' : '70'}, 100);
+	});
+
+	$('nav#main-navigation .menu-transform').on('mouseleave', function() {
+		$(this).find('.sub-menu').css('margin-left', '-9999px');
+		$('header #logo').stop().animate({'width': '70%', 'margin-left': '-35%'}, 50);
+		$('nav#main-navigation').stop().animate({'width' : '230'}, 50, function() { $('header a span').stop().show(100); });
+	});
+
+});	
+-->
 </script>
 
 </head>
 <body>
 	<header>
-		<div id="logo"></div>
-		<nav id="navigation" role="navigation">
-			<a>федерация</a>
-			<a>клуб</a>
-			<a>события</a>
-			<a>отчёты</a>
-			<a>горы мира</a>
+		<nav id="main-navigation" role="navigation">
+			<div id="logo"><a href="/" title="на главную"><img src="images/logo.png" alt="Logo" /></a></div>
+			<div class="menu-transform">
+				<div class="sub-menu">
+					<a>Устав</a>
+					<a>Члены федерации</a>
+					<a>План работы и развития</a>
+				</div>
+				<a class="main-item"><img class="icon" src="images/help-icon.png" /><span>федерация<span></a>
+			</div>
+			<div class="menu-transform">
+				<div class="sub-menu">
+					<a>История клуба</a>
+					<a>Члены клуба</a>
+					<a>Расписание занятий</a>
+				</div>
+				<a class="main-item"><img class="icon" src="images/club-icon.png" /><span>клуб<span></a>
+			</div>
+			<a class="main-item"><img class="icon" src="images/calendar-icon.png" /><span>события<span></a>
+			<a class="main-item"><img class="icon" src="images/report-icon.png" /><span>отчёты<span></a>
+			<a class="main-item"><img class="icon" src="images/mountain-icon.png" /><span>горы мира<span></a>
+			<div id="copyright">&copy; One-two-three & etc…</div>
 		</nav>
 	</header>
 
 	<aside>
-		<nav role="toolbar search">
+		<nav id="toolbar" role="toolbar search">
+			<a id="login"><img class="icon" src="images/user-icon.png" /><span>login</span></a>
+			<a id="search"><img class="icon" src="images/search-icon.png" /><span><input id="search-field" name="search-field" type="text" size="40" /></span></a>
+			<a id="help"><img class="icon" src="images/help-icon.png" /><span>help</span></a>
 		</nav>
 	</aside>
 	
 	<section id="main-section" role="main">
-	</section>
+		<article>
+			<h1>Глава третья. Это — человек</h1>
+			<p>Человек как высокоразвитая саморегулирующаяся система имеет свойство отражать (переносить) свои свойства на окружающую среду. Он единственное существо на планете, в котором это свойство развито максимальным образом.</p>
+			<p>Камень — усиление свойств кулака. Каменный топор — уже отражение принципа рычага, заложенного в конструкцию руки. Брошенный в цель камень — перенос на расстояние ударного воздействия кулака.</p>
+			<p>Пуля — техническое совершенствование данного свойства.</p>
+			<p>Паровой молот — при всей сложности и мощности конструкции — в первооснове своей есть все то же отражение ударно-дробящих свойств кулака.</p>
+			<p>Скребок — отражение свойств ногтя человека.</p>
+			<p>Фрезерный станок — техническое воплощение свойств ногтя.</p>
+			<p>Примеры можно приводить до бесконечности. Вывод будет один — человек не может создать (манифестировать вовне) ничего, что бы до этого не содержалось в нем самом.</p>
+			<p>Даже полет в воздухе, явно несвойственный человеку как биологическому виду, есть отражение работы сознания по наблюдению, осмыслению и выработке «ментальной модели» полета, в данном случае — теории Жуковского. И реализуется на практике полет в воздухе исключительно благодаря свойствам человека как конструктора и оператора.</p>
+			<p>Итак, во всем, что создано человеком, можно обнаружить те или иные человеческие свойства.</p>
+			<p>Общество и государство есть продукт исторического творчества человека. Но совершенно очевидно, что общество не могло появиться раньше государства, а государство раньше общества. Более того, сам «первый человек», от которого мы происходим, должен был обладать некими свойствами и качествами, которые, разворачиваясь во времени, привели к ныне существующим социальным системам. Сколь шокирующе это ни прозвучит, но первый человек изначально должен был быть общинником и государственником. Иначе картина сегодняшней реальности была бы совершенно другой.</p>
+			<p>Во взгляде на феномен человека сложилось представление о человеческой двойственности, дуалистичности. Без сомнений признается животный, биологический аспект человеческой натуры и с рядом оговорок привносится некий «божественный», априори чистый. Диалектическое единство и противоположность этих двух начал и служит движителем эволюции самого человека и человейника. Не будем спорить с тезисом о божественном происхождении человека. Обратим внимание на «темную» сторону. Ведь мы ищем Демона.</p>
+			<p>Несомненно, человек — высокоорганизованное животное. Но он — социальное (стайное) животное. И все преимущества в ходе эволюции он получил не благодаря своим биологическим характеристикам, а именно как социальное существо. Сама история человечества — это история человеческих сообществ, а не сумма биографий отдельных индивидуумов. Но следует заметить, что человеческие сообщества, «человейники» есть не только среда обитания человека, но и результат его деятельности, продукт его «исторического творчества», как выразился А.А. Зиновьев. И как и любой результат неизбежно несет в себе черты и характеристики автора. Человек творил свой мир, свою среду обитания, свой человейник по своему образу и подобию. Очевидно, что все внутренние противоречия человейника проистекают и внутренне противоречивой природы самого человека.</p>
+			<p>Базовое противоречие феномена человека следует искать в конфликте индивидуальной программы, заложенной в человеке как в самостоятельной кибернетической самоорганизующейся системе, с функционированием индивидуума в системе человеческого сообщества — человейнике. Конфликт этот происходит между экзистенциальным эгоизмом человека и эволюционным коллективизмом, который способствует выживанию не отдельного члена, а человейника в целом.</p>
+			<p>Мощный человейник, укрепленный, имеющий ресурс прочности для противостояния агрессии извне и обладающий потенциалом для экспансии вовне, такой человейник — земной рай для человека. Другого, более совершенного, ему просто не дано. Оказавшийся в условиях дикой природы, вне социума, человек обречен. Не столько биологически, сколько социально. Это подтверждают безуспешные попытки «очеловечить» человеческих детенышей, воспитанных животными.</p>
+			<p>Но внутри самого человека постоянно идет борьба между индивидуалистическим и коллективистским началом. Общество принуждает и стимулирует его к действию как атомарного объекта социальных связей, что предполагает примат интересов сообщества, самопожертвование, труд на благо всей системы и т. д. И всеми способами подавляет индивидуалистические начала, «сбивает» личную программу поиска максимального личного комфорта и безопасности.</p>
+			<p>В результате у человека появляется единственный коридор жизнедеятельности как компромисс между эгоистичной личностной программой и интересами человейника — карьера в системе управления социумом. Согласитесь, что генерал имеет меньше шансов погибнуть от пули, чем солдат на передовой. А глава банка, если дело не дошло до конфискации имущества, от банкротства теряет меньше, чем клерк.</p>
+			<p>Восхождение по социальной лестнице требует значительных усилий, но в случае успеха приобретенные привилегии с лихвой их компенсируют. Более того, при закреплении привилегий по линии наследования (социальный статус, капитал, недвижимость, культурный и образовательный уровень) потомкам не придется повторять социальный «подвиг» отцов. Но так как количество вакансий в социальной пирамиде убывает по мере приближения к еевершине, то, действительно, тысячи, сотни тысяч погибают или скатываются вниз, исчерпав свой жизненный ресурс. Как тут не вспомнить римскую максиму: «Тысячи должны погибнуть, чтобы Цезарь стал великим».</p>
+			<p>В обществе идет непрекращающаяся борьба за жизненные блага, предоставляемые обществом. В схеме, рассмотренной в предыдущей главе, вектор личностных амбиций устремлен к субъекту управления, потому что именно в нем находится центр распределения жизненных благ, зона максимальной безопасности от воздействия внешней среды и там же содержится минимум издержек, связанных с недостатками функционирования системы.</p>
+			<p>Для прорыва вверх по социальной лестнице формируются группы, кланы, команды, единственной целью которых является обретение максимально высокого социального статуса. Поэтому баланс элит есть, скорее, желаемое, чем реальное положение. Или кратковременное состояние.</p>
+			<p>Очевидно, что «водное перемирие» в среде рвущихся к власти долго длиться не может. Развитие системы требует определенной скорости вертикальной социальной динамики. Как только обновление человеческого материала среди властвующих снижается ниже порогового уровня, когда основная масса населения лишается перспективы подняться вверх по социальной лестнице и получить непосредственный доступ к системе перераспределения жизненных благ, назревает социальный взрыв.</p>
+		</article>
 
-	<footer role="contentinfo">
-		<address>
-		</address>
-	</footer>
+		<footer role="contentinfo">
+			<address>1-2-3-4-5…  rabbit go to the walk….</address>
+		</footer>
+	
+	</section>
 
 </body>
 </html>

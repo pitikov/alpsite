@@ -32,9 +32,11 @@ return array(
       // If removed, Gii defaults to localhost only. Edit carefully to taste.
       'ipFilters'=>array('127.0.0.1','::1'),
     ),
-    'administration'=>array(
-        /// Здесь разместить параметры модуля
-    ),
+    'federation',
+    'mountaineeringclub',
+    'events',
+    'reports',
+    'mountains',
   ),
 
   // application components
@@ -175,7 +177,7 @@ return array(
 	'widgets' => array(
 	    'ERedactorWidget' => array(
 		'options'=>array(
-		    'lang'=>'fi',
+		    'lang'=>'ru',
 			'buttons'=>array(
 			    'formatting', '|', 'bold', 'italic', 'deleted', '|',
 			    'unorderedlist', 'orderedlist', 'outdent', 'indent', '|',
