@@ -42,6 +42,10 @@ return array(
     'user'=>array(
       // enable cookie-based authentication
       'allowAutoLogin'=>true,
+      'class'=>'AlpsiteUser',
+    ),
+    'request'=>array(
+	'enableCookieValidation'=>true,
     ),
     // uncomment the following to enable URLs in path-format
     'urlManager'=>array(
@@ -190,9 +194,6 @@ return array(
 	    'class' => 'PhpAuthManager',
 	    // Роль по умолчанию. Все, кто не админы, модераторы и юзеры — гости.
 	    'defaultRoles' => array('guest'),
-	),
-	'user'=> array(
-	    'class'=>'AlpsiteUser',
 	),
   ),
 
