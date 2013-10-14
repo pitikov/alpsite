@@ -2,8 +2,13 @@
 /* @var $this SiteUserController */
 /* @var $model SiteUser */
 /* @var $form CActiveForm */
-?>
 
+$this->breadcrumbs=array(
+    'Пользователь'=>array('/user'),
+    'Регистрация'
+);
+?>
+<h1>Регистрация пользователя</h1>
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
