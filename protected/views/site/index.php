@@ -18,3 +18,16 @@ $this->pageTitle=Yii::app()->name;
 the <a href="http://www.yiiframework.com/doc/">documentation</a>.
 Feel free to ask in the <a href="http://www.yiiframework.com/forum/">forum</a>,
 should you have any questions.</p>
+
+<div class='flash-error'>
+<?php
+    echo 'User type: '.Yii::app()->user->identType();
+    echo '<br/>';
+    echo 'User UID : '.Yii::app()->user->uid();
+    echo '<br/>';
+    echo 'User ID : '.Yii::app()->user->id;
+    echo '<br/>';
+    echo 'User name : '.Yii::app()->user->name;
+
+?>
+</div>

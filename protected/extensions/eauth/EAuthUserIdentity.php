@@ -12,7 +12,7 @@
  *
  * @package application.extensions.eauth
  */
-class EAuthUserIdentity extends CBaseUserIdentity {
+class EAuthUserIdentity extends UserIdentity {
 
 	const ERROR_NOT_AUTHENTICATED = 3;
 

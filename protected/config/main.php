@@ -32,9 +32,11 @@ return array(
       // If removed, Gii defaults to localhost only. Edit carefully to taste.
       'ipFilters'=>array('127.0.0.1','::1'),
     ),
-    'administration'=>array(
-        /// Здесь разместить параметры модуля
-    ),
+    'federation',
+    'mountaineeringclub',
+    'events',
+    'reports',
+    'mountains',
   ),
 
   // application components
@@ -42,6 +44,10 @@ return array(
     'user'=>array(
       // enable cookie-based authentication
       'allowAutoLogin'=>true,
+      'class'=>'AlpsiteUser',
+    ),
+    'request'=>array(
+	'enableCookieValidation'=>true,
     ),
     // uncomment the following to enable URLs in path-format
     'urlManager'=>array(
@@ -116,12 +122,14 @@ return array(
 	  'client_secret' => '...',
 	  'title' => 'Yandex (OAuth)',
 	),
+	/*/
 	'facebook' => array(
 	  // register your app here: https://developers.facebook.com/apps/
 	  'class' => 'FacebookOAuthService',
 	  'client_id' => '...',
 	  'client_secret' => '...',
 	),
+	/*/
 	'linkedin' => array(
 	  // register your app here: https://www.linkedin.com/secure/developer
 	  'class' => 'LinkedinOAuthService',
@@ -140,6 +148,7 @@ return array(
 	  'client_id' => '...',
 	  'client_secret' => '...',
 	),
+	/*/
 	'vkontakte' => array(
 	  // register your app here: https://vk.com/editapp?act=create&site=1
 	  'class' => 'VKontakteOAuthService',
@@ -152,6 +161,7 @@ return array(
 	  'client_id' => '711201',
 	  'client_secret' => '95a7a909655adf538d064827e5d676c',
 	),
+	/*/
 	'moikrug' => array(
 	  // register your app here: https://oauth.yandex.ru/client/my
 	  'class' => 'MoikrugOAuthService',
@@ -175,7 +185,7 @@ return array(
 	'widgets' => array(
 	    'ERedactorWidget' => array(
 		'options'=>array(
-		    'lang'=>'fi',
+		    'lang'=>'ru',
 			'buttons'=>array(
 			    'formatting', '|', 'bold', 'italic', 'deleted', '|',
 			    'unorderedlist', 'orderedlist', 'outdent', 'indent', '|',
@@ -185,7 +195,14 @@ return array(
                 ),
             ),
         ),
+        'authManager' => array(
+	    // Будем использовать свой менеджер авторизации
+	    'class' => 'PhpAuthManager',
+	    // Роль по умолчанию. Все, кто не админы, модераторы и юзеры — гости.
+	    'defaultRoles' => array('guest'),
+	),
   ),
+
 
   // application-level parameters that can be accessed
   // using Yii::app()->params['paramName']

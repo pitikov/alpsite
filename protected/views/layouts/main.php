@@ -1,59 +1,107 @@
-<?php /* @var $this Controller */ ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="ru" xml:lang="ru">
+
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="language" content="en" />
+<title>Федерация альпинизма Пензенской области и альпклуб "Пенза"</title>
 
-	<!-- blueprint CSS framework -->
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/screen.css" media="screen, projection" />
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/print.css" media="print" />
-	<!--[if lt IE 8]>
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/ie.css" media="screen, projection" />
-	<![endif]-->
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="content-language" content="ru" />
+<meta name="author" content="Ezersky Boris" />
+<meta name="author" content="Pitikov Evgeniy" />
 
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
 
-	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+<meta name="robots" content="index,follow" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="cache-control" content="no-cache">
+
+<link rel="Shortcut Icon" type="image/x-icon" href="favicon.ico" size="16x16"/>
+
+<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/screen.css" media="screen, projection" />
+
+<script src="javascript/jquery.min.js" type="text/javascript"></script>
+
+
+<style media="handheld">
+</style>
+
+<style media="print">
+</style>
+
+<script type="text/javascript">
+<!--	
+$(document).ready(function() {
+
+	$('#toolbar a').on('mouseenter', function() {
+//		$(this).find('input').stop();
+		if ($(this).find('span').css('display') == 'none') $(this).find('span').show('fast');
+	});
+	
+	$('#toolbar').on('mouseleave', function() {
+		$('#toolbar a span').stop().hide('fast');
+	});
+	
+	$('nav#main-navigation .menu-transform').on('mouseenter', function() {
+		$(this).find('.sub-menu').css('margin-left', '0px');
+		$('header a span').stop().hide(100);
+		$('header #logo').stop().animate({'width': '90%', 'margin-left': '-45%'}, 100);
+		$('nav#main-navigation').stop().animate({'width' : '70'}, 100);
+	});
+
+	$('nav#main-navigation .menu-transform').on('mouseleave', function() {
+		$(this).find('.sub-menu').css('margin-left', '-9999px');
+		$('header #logo').stop().animate({'width': '70%', 'margin-left': '-35%'}, 50);
+		$('nav#main-navigation').stop().animate({'width' : '230'}, 50, function() { $('header a span').stop().show(100); });
+	});
+
+});	
+-->
+</script>
+
 </head>
-
 <body>
+	<header>
+		<nav id="main-navigation" role="navigation">
+			<div id="logo"><a href="<?php echo $this->createUrl('/'); ?>" title="на главную"><img src="/images/logo.png" alt="Logo" /></a></div>
+			<div class="menu-transform">
+				<div class="sub-menu">
+					<a href="<?php echo $this->createUrl('/federation/official');?>">Устав</a>
+					<a href="<?php echo $this->createUrl('/user/dossierlist');?>">Члены федерации</a>
+					<a href="<?php echo $this->createUrl('/federation/plane');?>">План работы и развития</a>
+				</div>
+				<a class="main-item" href='<?php $this->createUrl('/federation')?>'><img class="icon" src="/images/help-icon.png" /><span>федерация<span></a>
+			</div>
+			<div class="menu-transform">
+				<div class="sub-menu">
+					<a href="<?php echo $this->createUrl('/mountaineeringclub/history');?>">История клуба</a>
+					<a href="<?php echo $this->createUrl('/mountaineeringclub/members');?>">Члены клуба</a>
+					<a href="<?php echo $this->createUrl('/mountaineeringclub/calendar');?>">Расписание занятий</a>
+				</div>
+				<a class="main-item" href="<?php echo $this->createUrl('/mountaineeringclub');?>"><img class="icon" src="/images/club-icon.png" /><span>клуб<span></a>
+			</div>
+			<a class="main-item" href="<?php echo $this->createUrl('/events');?>"><img class="icon" src="/images/calendar-icon.png" /><span>события<span></a>
+			<a class="main-item" href="<?php echo $this->createUrl('/reports');?>"><img class="icon" src="/images/report-icon.png" /><span>отчёты<span></a>
+			<a class="main-item" href="<?php echo $this->createUrl('/mountains');?>"><img class="icon" src="/images/mountain-icon.png" /><span>горы мира<span></a>
+			<div id="copyright">&copy; One-two-three & etc…</div>
+		</nav>
+	</header>
 
-<div class="container" id="page">
-
-	<div id="header">
-		<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
-	</div><!-- header -->
-
-	<div id="mainmenu">
-		<?php $this->widget('zii.widgets.CMenu',array(
-			'items'=>array(
-				array('label'=>'Home', 'url'=>array('/site/index')),
-				array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
-				array('label'=>'Contact', 'url'=>array('/site/contact')),
-				array('label'=>'Persons', 'url'=>array('/user/dossierlist')),
-				array('label'=>'Login', 'url'=>array('/user/login'), 'visible'=>Yii::app()->user->isGuest),
-				array('label'=>Yii::app()->user->name, 'url'=>array('/user/profile'), 'visible'=>!Yii::app()->user->isGuest),
-				//array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
-			),
-		)); ?>
-	</div><!-- mainmenu -->
-	<?php if(isset($this->breadcrumbs)):?>
-		<?php $this->widget('zii.widgets.CBreadcrumbs', array(
-			'links'=>$this->breadcrumbs,
-		)); ?><!-- breadcrumbs -->
-	<?php endif?>
-
+	<aside>
+		<nav id="toolbar" role="toolbar search">
+			<a id="login" href='<?php echo $this->createUrl('/user');?>'><img class="icon" src="/images/user-icon.png" /><span><?php echo Yii::app()->user->isGuest?'login':Yii::app()->user->name;?></span></a>
+			<a id="search"><img class="icon" src="/images/search-icon.png" /><span><input id="search-field" name="search-field" type="text" size="40" /></span></a>
+			<a id="help"><img class="icon" src="/images/help-icon.png" /><span>help</span></a>
+		</nav>
+	</aside>
+	<section id="main-section" role="main">
 	<?php echo $content; ?>
-
-	<div class="clear"></div>
-
-	<div id="footer">
-		Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>
-		All Rights Reserved.<br/>
-		<?php echo Yii::powered(); ?>
-</div><!-- page -->
+<!-- А futter как генерится -->
+		<footer role="contentinfo">
+			<address>1-2-3-4-5…  rabbit go to the walk….</address>
+		</footer>
+	
+	</section>
 
 </body>
 </html>

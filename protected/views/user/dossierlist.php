@@ -17,7 +17,9 @@ $this->layout='/layouts/column1';
 	    ),array(
 		'name'=>'date_of_bethday',
 		'header'=>'дата рождения',
-	    ), array(
+	    ),
+	    /*
+	    array(
 	        'header'=>'Ф',
 	        'value'=>'1',
 	    ), array(
@@ -27,6 +29,7 @@ $this->layout='/layouts/column1';
 	        'header'=>'С',
 	        'value'=>'1',
 	    )
+	    */
 	),
     ));
 ?>
