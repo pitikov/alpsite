@@ -56,6 +56,7 @@ nav#main-navigation .sub-menu a {
   font-size: 12pt;
   color: rgb(150, 150, 150);
   background: rgb(50, 50, 50);
+  -moz-box-sizing: border-box;
 }
 nav#main-navigation .sub-menu a:hover { color: white; }
 
