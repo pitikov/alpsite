@@ -1,14 +1,22 @@
 <?php
-/* @var $this DossierController */
+/** @var $this DossierController */
 
 $this->breadcrumbs=array(
-	'Dossier'=>array('/federation/dossier'),
-	'List',
+	'Члены федерации'=>array('/federation/dossier'),
+	'Список',
 );
 ?>
-<h1><?php echo $this->id . '/' . $this->action->id; ?></h1>
+<h1>Члены федерации</h1>
 
-<p>
-	You may change the content of this page by modifying
-	the file <tt><?php echo __FILE__; ?></tt>.
-</p>
+<?php
+    $this->widget('zii.widgets.grid.CGridView', array(
+	'dataProvider'=>$federationMembers,
+	'columns'=>array(
+	    array(
+		'name'=>'name',
+		'class'=>'MemberDossierGridLink',
+	    ),
+	),
+	'hideHeader'=>true
+    ));
+?>

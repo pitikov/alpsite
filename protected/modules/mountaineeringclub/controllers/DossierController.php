@@ -26,7 +26,12 @@ class DossierController extends Controller
 
   public function actionList()
   {
-    $this->render('list');
+    $clubMembers = new CActiveDataProvider('MountaineeringclubMember',  array(
+      'pagination'=>array(
+	'pageSize'=>10,
+      ),
+    ));
+    $this->render('list', array('clubMembers'=>$clubMembers));
   }
 
   public function actionView()

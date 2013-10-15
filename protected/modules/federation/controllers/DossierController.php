@@ -8,26 +8,31 @@ class DossierController extends Controller
       parent::init();
       $this->defaultAction='list';
   }
+  
+  public function actionAdd()
+  {
+    $this->render('add');
+  }
+  
+  public function actionDrop()
+  {
+    $this->render('drop');
+  }
+  
+  public function actionEdit()
+  {
+    $this->render('edit');
+  }
 
-	public function actionAdd()
-	{
-		$this->render('add');
-	}
-
-	public function actionDrop()
-	{
-		$this->render('drop');
-	}
-
-	public function actionEdit()
-	{
-		$this->render('edit');
-	}
-
-	public function actionList()
-	{
-		$this->render('list');
-	}
+  public function actionList()
+  {
+      $federationMembers = new CActiveDataProvider('FederationMember',  array(
+      'pagination'=>array(
+	'pageSize'=>10,
+      ),
+    ));
+    $this->render('list', array('federationMembers'=>$federationMembers));
+  }
 
 	public function actionView()
 	{
