@@ -13,14 +13,14 @@ header {
   height: 100%;
   z-index: 10;
   background: rgb(35, 35, 35);
-  background: url("/images/submenu-background.png") repeat-y;
+//  background: url("/images/submenu-background.png") repeat-y;
   box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.15);
 }
-	
+
 #copyright { position: absolute; bottom: 10px; padding: 0 10px; font-size: 9pt; color: rgb(60, 85, 115); z-index:15; }
 #logo { height: 250px; position: relative; left: 50%; margin-left: -35%; width: 70%; }
 #logo img { width: 100%; position: absolute; bottom: 20px; }
-	
+
 nav#main-navigation {
   position: absolute;
   top: 0px;
@@ -31,7 +31,7 @@ nav#main-navigation {
   z-index: 11;
 }
 
-nav#main-navigation a.main-item { 
+nav#main-navigation a.main-item {
   display: block;
   min-height: 50px;
   padding: 15px 22px;
@@ -45,9 +45,9 @@ nav#main-navigation a.main-item {
 nav#main-navigation a.main-item:hover { background: rgba(255, 255, 255, 0.35); }
 
 nav a img.icon {  width: 20px; height: 20px; margin-right: 7px; position: relative; top: 3px; }
-	
+
 nav#main-navigation .sub-menu { position: absolute; left: 70px; z-index: 12; margin-left: -9999px;}
-nav#main-navigation .sub-menu a { 
+nav#main-navigation .sub-menu a {
   display: block;
   min-height: 50px;
   width: 160px;
@@ -60,7 +60,7 @@ nav#main-navigation .sub-menu a {
 nav#main-navigation .sub-menu a:hover { color: white; }
 
 nav#toolbar {
-  background: rgba(173, 197, 227, 0.45);
+//  background: rgba(173, 197, 227, 0.45);
   background: url("/images/header-background.png") repeat-x;
   position: absolute;
   top: 0px;
@@ -80,14 +80,14 @@ nav#toolbar a input#search-field { max-height: 20px; }
 
 nav#toolbar #search-field { border-radius: 10px; border: solid 1px navy; font-size: 11pt; padding-left: 7px; }
 
-section#main-section { 
+section#main-section {
   position: absolute;
   top: 0px;
   bottom: 0px;
   left:	230px;
   right: 0px;
   overflow-y: scroll;
-  width: 100%;
+//  width: 100%;
 }
 
 section#main-section article { max-width: 1000px; 	padding: 25px; }
