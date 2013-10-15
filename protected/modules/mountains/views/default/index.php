@@ -1,17 +1,13 @@
 <?php
-/* @var $this DefaultController */
+/** @var $this DefaultController */
 
 $this->breadcrumbs=array(
-	$this->module->id,
+	'Горы мира',
 );
+$this->pageTitle=Yii::app()->name . ' - Горы мира';
 ?>
-<h1><?php echo $this->uniqueId . '/' . $this->action->id; ?></h1>
+<h1>Горы мира</h1>
 
 <p>
-This is the view content for action "<?php echo $this->action->id; ?>".
-The action belongs to the controller "<?php echo get_class($this); ?>"
-in the "<?php echo $this->module->id; ?>" module.
-</p>
-<p>
-You may customize this page by editing <tt><?php echo __FILE__; ?></tt>
+Данный раздел сайта содержит статьи, очерки и прочие материалы посвященные горам мира.
 </p>
