@@ -107,10 +107,4 @@ class MountaineeringclubMember extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-	
-	public function photo()
-	{
-	  return $dossier0->photo;
-	  
-	}
 }

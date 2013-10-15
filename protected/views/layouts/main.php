@@ -20,7 +20,7 @@
 
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/screen.css" media="screen, projection" />
 
-<script src="javascript/jquery.min.js" type="text/javascript"></script>
+<script src="/javascript/jquery.min.js" type="text/javascript"></script>
 
 
 <style media="handheld">
@@ -69,10 +69,11 @@ $(document).ready(function() {
       <div class="menu-transform">
 	<div class="sub-menu">
 	  <a href="<?php echo $this->createUrl('/federation/official/rules');?>">Устав</a>
+	  <a href="<?php echo $this->createUrl('/federation/official/details');?>">Реквизиты</a>
 	  <a href="<?php echo $this->createUrl('/federation/dossier/list');?>">Члены федерации</a>
 	  <a href="<?php echo $this->createUrl('/federation/plan/calendar');?>">План работы и развития</a>
 	</div>
-	<a class="main-item" href='<?php $this->createUrl('/federation')?>'><img class="icon" src="/images/help-icon.png" /><span>федерация<span></a>
+	<a class="main-item" href='<?php echo $this->createUrl('/federation');?>'><img class="icon" src="/images/help-icon.png" /><span>федерация<span></a>
       </div>
       <div class="menu-transform">
 	<div class="sub-menu">

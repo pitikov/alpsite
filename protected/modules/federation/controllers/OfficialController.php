@@ -13,6 +13,12 @@ class OfficialController extends Controller
   {
     $this->render('rules');
   }
+  
+    
+  public function actionDetails()
+  {
+    $this->render('details');
+  }
 
   /*
   // Uncomment the following methods and override them if needed

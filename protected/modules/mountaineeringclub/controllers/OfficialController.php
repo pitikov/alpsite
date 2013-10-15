@@ -19,6 +19,7 @@ class OfficialController extends Controller
     $this->render('rules');
   }
 
+  
   // Uncomment the following methods and override them if needed
   /*
   public function filters()
