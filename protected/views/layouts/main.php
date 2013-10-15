@@ -16,7 +16,7 @@
 <meta http-equiv="imagetoolbar" content="no" />
 <meta http-equiv="cache-control" content="no-cache">
 
-<link rel="Shortcut Icon" type="image/x-icon" href="favicon.ico" size="16x16"/>
+<link rel="Shortcut Icon" type="image/x-icon" href="/images/mountain-icon.png" size="16x16"/>
 
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/screen.css" media="screen, projection" />
 
@@ -83,8 +83,26 @@ $(document).ready(function() {
 	<a class="main-item" href="<?php echo $this->createUrl('/mountaineeringclub');?>"><img class="icon" src="/images/club-icon.png" /><span>клуб<span></a>
       </div>
       <a class="main-item" href="<?php echo $this->createUrl('/events');?>"><img class="icon" src="/images/calendar-icon.png" /><span>события<span></a>
-      <a class="main-item" href="<?php echo $this->createUrl('/reports');?>"><img class="icon" src="/images/report-icon.png" /><span>отчёты<span></a>
-      <a class="main-item" href="<?php echo $this->createUrl('/mountains');?>"><img class="icon" src="/images/mountain-icon.png" /><span>горы мира<span></a>
+      <?php if (!Yii::app()->user->isGuest) { ?>
+      <div class="menu-transform">
+	<div class="sub-menu">
+	  <a href="<?php echo $this->createUrl('/reports/index');?>">Просмотр</a>
+	  <a href="<?php echo $this->createUrl('/reports/post');?>">Публиковать</a>
+	</div>
+	<?php } ?>
+	<a class="main-item" href="<?php echo $this->createUrl('/reports/index');?>"><img class="icon" src="/images/report-icon.png" /><span>отчёты<span></a>
+	<?php if (!Yii::app()->user->isGuest) { ?>
+      </div>
+      <div class="menu-transform">
+	<div class="sub-menu">
+	  <a href="<?php echo $this->createUrl('/mountains/index');?>">Просмотр</a>
+	  <a href="<?php echo $this->createUrl('/mountains/post');?>">Публиковать</a>
+	</div>
+	<?php } ?>
+	<a class="main-item" href="<?php echo $this->createUrl('/mountains');?>"><img class="icon" src="/images/mountain-icon.png" /><span>горы мира<span></a>
+	<?php if (!Yii::app()->user->isGuest) { ?>
+      </div>
+      <?php } ?>
       <div id="copyright">&copy; One-two-three & etc…</div>
     </nav>
   </header>

@@ -35,8 +35,6 @@ return array(
     'federation',
     'mountaineeringclub',
     'events',
-    'reports',
-    'mountains',
   ),
 
   // application components
