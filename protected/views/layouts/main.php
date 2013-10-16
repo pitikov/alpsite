@@ -20,7 +20,7 @@
 
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/screen.css" media="screen, projection" />
 
-<script src="/javascript/jquery.min.js" type="text/javascript"></script>
+<script src="javascript/jquery.min.js" type="text/javascript"></script>
 
 
 <style media="handheld">
