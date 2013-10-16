@@ -107,4 +107,9 @@ class MountaineeringclubMember extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+	
+	public function role()
+	{
+	  return isset($this->mountaineeringclub_role) ? $this->mountaineeringclubRole->role . "<br/>" : "";
+	}
 }

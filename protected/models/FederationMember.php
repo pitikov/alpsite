@@ -107,4 +107,9 @@ class FederationMember extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+	
+	public function role()
+	{
+	  return isset($this->federation_role) ? $this->federationRole->role . "<br/>" : "";
+	}
 }

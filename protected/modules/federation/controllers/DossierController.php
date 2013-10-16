@@ -27,8 +27,11 @@ class DossierController extends Controller
   public function actionList()
   {
       $federationMembers = new CActiveDataProvider('FederationMember',  array(
+      'criteria'=>array(
+	'order'=>'federation_role DESC',
+      ),
       'pagination'=>array(
-	'pageSize'=>10,
+	'pageSize'=>25,
       ),
     ));
     $this->render('list', array('federationMembers'=>$federationMembers));
