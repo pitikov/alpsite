@@ -89,6 +89,7 @@ section#main-section {
   right: 0px;
   overflow-y: scroll;
 //  width: 100%;
+  margin:10px;
 }
 
 section#main-section article { max-width: 1000px; 	padding: 25px; }
@@ -96,3 +97,24 @@ section#main-section article { max-width: 1000px; 	padding: 25px; }
 footer { padding: 25px; border-top: solid 1px wheat; background: rgba(245, 222, 179, 0.1); }
 
 a { cursor: pointer; text-decoration: none; }
+
+div.main-content, footer {
+  display:block;
+}
+
+div.titleContetnt {
+  width:65%;
+  margin-right:10px;
+  display:inline-block;
+  float:left;
+}
+div.rightcollumn {
+ width:32%;
+  margin-left:10px;
+  display:inline-block;
+  float:right;
+}
+
+div.clear {
+  clear:both;
+}

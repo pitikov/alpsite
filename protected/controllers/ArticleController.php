@@ -2,7 +2,6 @@
 
 class ArticleController extends Controller
 {
-
 	public function init()
 	{
 	    $this->defaultAction=Yii::app()->user->isGuest ? 'themelist':'post';
@@ -21,7 +20,7 @@ class ArticleController extends Controller
 
 	public function actionTheme($themeid)
 	{
-	    $arttheme = ArticleTheme::model()->findByPk($themeid)->title;
+	    $arttheme = ArticleTheme::model()->findByPk($themeid);
 	    $themelist = new CActiveDataProvider('ArticleTheme', array(
 	        'criteria'=>array(
 	            'condition'=>'parent='.$themeid
@@ -32,12 +31,23 @@ class ArticleController extends Controller
 		    'condition'=>'theme='.$themeid,
 		)
 	    ));
-	    $this->render('theme', array('arttheme'=>$arttheme , 'id'=>$themeid,'articles'=>$articles, 'themelist'=>$themelist));
+	    
+	    $this->render('theme', 
+			  array('arttheme'=>$arttheme->title, 
+				'parenttheme'=>ArticleTheme::model()->findByPk($arttheme->parent), 
+				'id'=>$themeid,'articles'=>$articles, 
+				'themelist'=>$themelist
+				)
+	    );
 	}
 
 	public function actionThemelist()
 	{
-	    $themes = new CActiveDataProvider('ArticleTheme');
+	    $themes = new CActiveDataProvider('ArticleTheme',array(
+		'criteria'=>array(
+		    //'condition'=>'parent',
+		)
+	    ));
 	    $this->render('themelist',array('themelist'=>$themes));
 	}
 

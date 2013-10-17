@@ -6,13 +6,39 @@
 	</div><!-- content -->
 </div>
 <div class="rightcollumn">
+  <div id='spacer1'></div>
   <div id='federationActions'>
     <h3>Скоро</h3>
-    Здесь разместить анонс предстоящих АМ
+    <?php
+      if (get_class($this->federationActions) == 'CActiveDataProvider') {
+      $this->widget('zii.widgets.CListView', array(
+	  'dataProvider'=>$fedrationActions,
+	  'itemView'=>'_post',   // refers to the partial view named '_post'
+	  'sortableAttributes'=>array(
+	  'title',
+	  'create_time'=>'Post Time',
+	),
+      ));
+      } else {
+	echo 'Нет запланированных АМ';
+      }
+    ?>
   </div>
   <div id='federationActions'>
   <h3>Тренировки</h3>
-  Лента предстоящих тренировок
-  </div>
+    <?php
+      if (get_class($this->traningList) == 'CActiveDataProvider') {
+      $this->widget('zii.widgets.CListView', array(
+	  'dataProvider'=>$fedrationActions,
+	  'itemView'=>'_post',   // refers to the partial view named '_post'
+	  'sortableAttributes'=>array(
+	  'title',
+	  'create_time'=>'Post Time',
+	),
+      ));
+      } else {
+	echo 'Нет запланированных тренировок';
+      }
+    ?>  </div>
 </div>
 <?php $this->endContent(); ?>

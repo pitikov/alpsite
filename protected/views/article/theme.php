@@ -6,7 +6,9 @@ $this->breadcrumbs=array(
 	$arttheme
 );
 ?>
-<h1><?php echo $arttheme; ?></h1>
+<h1><?php 
+  echo (isset($parenttheme->title)?CHtml::link($parenttheme->title,array('/article/theme','themeid'=>$parenttheme->id)) . ' / ':'') . $arttheme; 
+?></h1>
 <script type="text/javascript">
 function getLabel()
 {
@@ -18,7 +20,6 @@ function getLabel()
 <p>
 <?php
 
-  ///if ($themelist->itemCount > 0) {
     $this->widget('zii.widgets.grid.CGridView', array(
       'dataProvider'=>$themelist,
       'columns'=>array(
@@ -38,10 +39,6 @@ function getLabel()
 	)
       ),
     ));
-  /*}
-  /*?>
-  <input type="image" src="/images/folder_add.png" onclick="getLabel()" value="Добавить тему">
-  <?php*/
     $this->widget('zii.widgets.grid.CGridView', array(
       'dataProvider'=>$articles,
       'columns'=>array(

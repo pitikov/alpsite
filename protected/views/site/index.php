@@ -8,5 +8,13 @@
 <h1><?php echo CHtml::encode(Yii::app()->name); ?></h1>
 
 <h2>Что новенького</h2>
-Где-то тут будут размещены бирифинги последних статей,<br/>
-с картинками, с переходом по клику.
+
+<?php
+      $this->widget('zii.widgets.CListView', array(
+	  'dataProvider'=>$ArticleList,
+	  'itemView'=>'brief',
+	  'sortableAttributes'=>array(
+	    'timestamp',
+	  ),
+      ));
+?>

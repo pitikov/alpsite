@@ -115,7 +115,10 @@ $(document).ready(function() {
     </nav>
   </aside>
   <section id="main-section" role="main">
+  <div class="main-content">
     <?php echo $content; ?>
+  </div>
+  <div class="clear"/>
     <!-- А futter как генерится -->
     <footer role="contentinfo">
       <address>1-2-3-4-5…  rabbit go to the walk….</address>
