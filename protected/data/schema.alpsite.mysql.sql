@@ -42,11 +42,12 @@ create table if not exists `site_pwdrequest` (
 -- таблица тематики статей
 create table if not exists `article_theme` (
 	`id` integer primary key auto_increment,
-	`title` varchar(128) not null unique comment 'названия тем',
+	`title` varchar(128) not null comment 'названия тем',
 	`icon` varchar(128) default null comment 'иконка', -- вопросс необходимости
 	`parent` integer default null comment 'указатель на родительскую тему',
 	`iscommentenable` bool default true comment 'Разрешение комментариев в теме', -- вопросс необходимости
 	key `fk_article_theme_parent` (`parent`),
+	constraint `uq_article_hteme` unique (`parent`, `title`),
 	constraint `fk_article_theme_parent` foreign key (`parent`) references `article_theme` (`id`) on update cascade on delete cascade
 ) engine = innodb comment 'Темы статей';
 

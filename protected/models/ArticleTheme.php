@@ -7,11 +7,14 @@
  * @property integer $id
  * @property string $title
  * @property string $icon
+ * @property integer $parent
  * @property integer $iscommentenable
  *
  * The followings are the available model relations:
  * @property ArticleBody[] $articleBodies
  * @property ArticleModerator[] $articleModerators
+ * @property ArticleTheme $parent0
+ * @property ArticleTheme[] $articleThemes
  * @property ArticleThemeSubmit[] $articleThemeSubmits
  */
 class ArticleTheme extends CActiveRecord
@@ -25,7 +28,7 @@ class ArticleTheme extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-	
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -43,11 +46,11 @@ class ArticleTheme extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('title', 'required'),
-			array('iscommentenable', 'numerical', 'integerOnly'=>true),
+			array('parent, iscommentenable', 'numerical', 'integerOnly'=>true),
 			array('title, icon', 'length', 'max'=>128),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, title, icon, iscommentenable', 'safe', 'on'=>'search'),
+			array('id, title, icon, parent, iscommentenable', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,6 +64,8 @@ class ArticleTheme extends CActiveRecord
 		return array(
 			'articleBodies' => array(self::HAS_MANY, 'ArticleBody', 'theme'),
 			'articleModerators' => array(self::HAS_MANY, 'ArticleModerator', 'theme'),
+			'parent0' => array(self::BELONGS_TO, 'ArticleTheme', 'parent'),
+			'articleThemes' => array(self::HAS_MANY, 'ArticleTheme', 'parent'),
 			'articleThemeSubmits' => array(self::HAS_MANY, 'ArticleThemeSubmit', 'theme'),
 		);
 	}
@@ -71,10 +76,11 @@ class ArticleTheme extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'title' => 'Title',
-			'icon' => 'Icon',
-			'iscommentenable' => 'Iscommentenable',
+			'id' => '№',
+			'title' => 'Заголовок',
+			'icon' => 'Иконка',
+			'parent' => 'Наверх',
+			'iscommentenable' => 'комментарии',
 		);
 	}
 
@@ -92,6 +98,7 @@ class ArticleTheme extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('title',$this->title,true);
 		$criteria->compare('icon',$this->icon,true);
+		$criteria->compare('parent',$this->parent);
 		$criteria->compare('iscommentenable',$this->iscommentenable);
 
 		return new CActiveDataProvider($this, array(

@@ -14,7 +14,12 @@ class ReportsController extends Controller
 
 	public function actionIndex()
 	{
-		$this->render('index');
+	  $theme = ArticleTheme::model()->findByAttributes(array('title'=>'Отчеты'));
+	  if (isset($theme->id)) {
+	    $this->redirect($this->createUrl('/article/theme',array('themeid'=>$theme->id)));
+	  } else {
+	    throw new CHttpException('404','Тематика "Отчеты" не найдена в БД');
+	  }
 	}
 
 	public function actionPost()

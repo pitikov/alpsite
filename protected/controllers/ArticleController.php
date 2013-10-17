@@ -22,12 +22,17 @@ class ArticleController extends Controller
 	public function actionTheme($themeid)
 	{
 	    $arttheme = ArticleTheme::model()->findByPk($themeid)->title;
+	    $themelist = new CActiveDataProvider('ArticleTheme', array(
+	        'criteria'=>array(
+	            'condition'=>'parent='.$themeid
+	        ),
+	    ));
 	    $articles = new CActiveDataProvider('ArticleBody', array(
 		'criteria'=>array(
 		    'condition'=>'theme='.$themeid,
 		)
 	    ));
-	    $this->render('theme', array('arttheme'=>$arttheme ,'articles'=>$articles));
+	    $this->render('theme', array('arttheme'=>$arttheme , 'id'=>$themeid,'articles'=>$articles, 'themelist'=>$themelist));
 	}
 
 	public function actionThemelist()
@@ -44,6 +49,24 @@ class ArticleController extends Controller
 	    } else {
 		throw new CHttpException(404,'Запрашиваемая статья не найдена');
 	    }
+	}
+
+	public function actionThemeadd($title, $parent)
+	{
+	  $article = new ArticleTheme;
+	  $article->title = $title;
+	  $article->parent = $parent;
+	  /// @todo Добавить валидацию введенного значения
+	  if ($article->save()) {
+	    $this->redirect($this->createUrl('/article/theme', array('themeid'=>$parent)));
+	  }
+	}
+
+	public function actionThemedel($themeid) {
+	  $theme = ArticleTheme::model()->findByPk($themeid);
+	  $parent = $theme->parent;
+	  $theme->delete();
+	  $this->redirect($this->createUrl('/article/theme', array('themeid'=>$parent)));
 	}
 
 	// Uncomment the following methods and override them if needed

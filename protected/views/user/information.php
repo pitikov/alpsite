@@ -45,7 +45,7 @@ $this->layout='/layouts/column1';
 ?>
 </div>
 <?php
-if (isset($climb->model)) {
+if (isset($climb->model) && ($climb->itemCount > 0)) {
   echo '<div id=\'climbing_list\'>';
 
   echo '<h2>Список восхождений</h2>';
@@ -119,7 +119,7 @@ if(isset($user->uid)) {
 <?php
 }
 
-if (isset($publications->model)) {
+if (isset($publications->model) && ($publications->itemCount > 0)) {
   echo '<h2>Список публикаций</h2>';
   $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider'=>$publications,
