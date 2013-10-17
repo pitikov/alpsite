@@ -27,10 +27,13 @@ class DossierController extends Controller
   public function actionList()
   {
     $clubMembers = new CActiveDataProvider('MountaineeringclubMember',  array(
-      'pagination'=>array(
-	'pageSize'=>10,
-      ),
-    ));
+      'criteria'=>array(
+	'order'=>'mountaineeringclub_role ASC',
+	),
+	'pagination'=>array(
+	  'pageSize'=>10,
+	),
+	));
     $this->render('list', array('clubMembers'=>$clubMembers));
   }
 

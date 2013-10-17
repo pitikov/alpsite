@@ -193,12 +193,14 @@ return array(
                 ),
             ),
         ),
+	/*
         'authManager' => array(
 	    // Будем использовать свой менеджер авторизации
 	    'class' => 'PhpAuthManager',
 	    // Роль по умолчанию. Все, кто не админы, модераторы и юзеры — гости.
 	    'defaultRoles' => array('guest'),
 	),
+	*/
   ),
 
 

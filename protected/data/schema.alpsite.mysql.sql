@@ -187,11 +187,12 @@ create table if not exists `federation_role` (
 
 insert into `federation_role` (`role`) values
 ('Председатель федерации'),
-('вице-председатель'),
+('Вице-председатель'),
 ('Член совета'),
 ('Контролер'),
-('Главный тренер'),
-('Почетный член');
+('Старший тренер'),
+('Почетный член'),
+('член федерации');
 
 -- члены федерации
 create table if not exists `federation_member` (
@@ -212,7 +213,7 @@ create table if not exists `federation_documents` (
 	constraint `fk_federation_documents` foreign key (`artid`) references `article_body`(`artid`) on update cascade on delete cascade
 ) engine = innodb comment 'Документы на странице федерации';
 
-insert into `article_theme` (`title`) values ('Федерация Альпинизма Пензенской области');
+insert into `article_theme` (`title`,`icon`) values ('Федерация Альпинизма Пензенской области','/images/federation-icon.png');
 
 create table if not exists `federation_calendar` (
 	`id` integer primary key auto_increment,
@@ -248,7 +249,8 @@ create table if not exists `mountaineeringclub_role` (
 insert into `mountaineeringclub_role` (`role`) values
 ('Старший тренер'),
 ('Тренер'),
-('Почетный член клуба');
+('Почетный член клуба'),
+('член клуба');
 
 -- члены клуба
 create table if not exists `mountaineeringclub_member` (
@@ -261,7 +263,7 @@ create table if not exists `mountaineeringclub_member` (
 	key `fk_mountaineeringclub_member_role` (`mountaineeringclub_role`),
 	constraint `fk_mountaineeringclub_member_dossier` foreign key (`dossier`) references `lib_user_dossier`(`id`) on update cascade on delete cascade,
 	constraint `fk_mountaineeringclub_member_role` foreign key (`mountaineeringclub_role`) references `mountaineeringclub_role`(`id`) on update cascade on delete restrict
-) engine = innodb comment 'Члены федерации';
+) engine = innodb comment 'Члены клуба';
 
 -- оффициальные документы клуба
 create table if not exists `mountaineeringclub_documents` (
@@ -269,7 +271,7 @@ create table if not exists `mountaineeringclub_documents` (
 	constraint `fk_mountaineeringclub_documents` foreign key (`artid`) references `article_body`(`artid`) on update cascade on delete cascade
 ) engine = innodb comment 'Документы на странице альпклуба';
 
-insert into `article_theme` (`title`) values ('Альпклуб "Пенза"');
+insert into `article_theme` (`title`,`icon`) values ('Альпклуб "Пенза"','/images/club-icon.png');
 
 -- Календарь мероприятий клуба
 create table if not exists `mountaineeringclub_calendar` (
@@ -286,4 +288,6 @@ create table if not exists `mountaineeringclub_calendar` (
 	key `fk_club_calendar_article` (`article`),
 	constraint `fk_club_calendar_executor` foreign key (`responsible_executor`) references `site_user`(`uid`) on update cascade on delete restrict,
 	constraint `fk_club_calendar_article` foreign key (`article`) references `article_body`(`artid`) on update cascade on delete set null
-) engine = innodb comment 'Календарь мероаприятий клуба'
+) engine = innodb comment 'Календарь мероприятий клуба';
+
+insert into `article_theme` (`title`,`icon`) values ('Отчеты','/images/report-icon.png'),('Горы мира','/images/mountain-icon.png');
