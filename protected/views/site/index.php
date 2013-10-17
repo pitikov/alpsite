@@ -1,33 +1,12 @@
 <?php
 /** @var $this SiteController */
 
-$this->pageTitle=Yii::app()->name;
+  $this->pageTitle=Yii::app()->name;
+  $this->layout='//layouts/titlepage';
 ?>
 
-<h1>Welcome to <i><?php echo CHtml::encode(Yii::app()->name); ?></i></h1>
+<h1><?php echo CHtml::encode(Yii::app()->name); ?></h1>
 
-<p>Congratulations! You have successfully created your Yii application.</p>
-
-<p>You may change the content of this page by modifying the following two files:</p>
-<ul>
-	<li>View file: <code><?php echo __FILE__; ?></code></li>
-	<li>Layout file: <code><?php echo $this->getLayoutFile('main'); ?></code></li>
-</ul>
-
-<p>For more details on how to further develop this application, please read
-the <a href="http://www.yiiframework.com/doc/">documentation</a>.
-Feel free to ask in the <a href="http://www.yiiframework.com/forum/">forum</a>,
-should you have any questions.</p>
-
-<div class='flash-error'>
-<?php
-    echo 'User type: '.Yii::app()->user->identType();
-    echo '<br/>';
-    echo 'User UID : '.Yii::app()->user->uid();
-    echo '<br/>';
-    echo 'User ID : '.Yii::app()->user->id;
-    echo '<br/>';
-    echo 'User name : '.Yii::app()->user->name;
-
-?>
-</div>
+<h2>Что новенького</h2>
+Где-то тут будут размещены бирифинги последних статей,<br/>
+с картинками, с переходом по клику.
