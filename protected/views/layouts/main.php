@@ -32,7 +32,7 @@
 
 </head>
 <body>
-  <header>
+  <menuheader>
     <nav id="main-navigation" role="navigation">
       <div id="logo">
 	<a href="<?php echo $this->createUrl('/'); ?>" title="на главную"><img src="/images/logo.png" alt="Logo" /></a>
@@ -77,7 +77,7 @@
       <?php } ?>
       <div id="copyright">&copy; One-two-three & etc…</div>
     </nav>
-  </header>
+    </menuheader>
   <aside>
     <nav id="toolbar" role="toolbar search">
       <a id="login" href='<?php echo $this->createUrl('/user');?>'><img class="icon" src="/images/user-icon.png" /><span><?php echo Yii::app()->user->isGuest?'login':Yii::app()->user->name;?></span></a>
