@@ -9,12 +9,12 @@
 
 <h2>Что новенького</h2>
 
-<?php
+<?php/*
       $this->widget('zii.widgets.CListView', array(
 	  'dataProvider'=>$ArticleList,
-	  'itemView'=>'brief',
-	  'sortableAttributes'=>array(
+	  'itemView'=>'body',
+	 / * 'sortableAttributes'=>array(
 	    'timestamp',
-	  ),
-      ));
+	  ),* /
+      ));*/
 ?>

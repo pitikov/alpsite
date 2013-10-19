@@ -17,6 +17,7 @@ function getLabel()
   }
 }
 </script>
+
 <p>
 <?php
   /// @todo В дальнейшем делать проверку на доступ пользователя к редактированию темы для создания субтемы
@@ -48,6 +49,7 @@ function getLabel()
 	  array(
 	      'name'=>'title',
 	      'class'=>'ArticleGridLink',
+	      'footer'=>Yii::app()->user->isGuest?'':CHtml::link('<img src=\'/images/folder_add.png\'/>', array('/article/post','theme'=>$id)),
 	  ),array(
 	      'name'=>'author0.name',
 	      'header'=>'автор'

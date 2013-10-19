@@ -13,11 +13,44 @@ class ArticleController extends Controller
 		$this->render('edit');
 	}
 
-	public function actionPost()
+	/** @fn actionPost
+	  * @brief Публикация новой статьи
+	  */
+	public function actionPost($theme)
 	{
-		$this->render('post');
+	    $model = new ArticleBody;
+	    $titleEdit = true;
+	    $subthemeSelectEnable = isset($_POST['subthemeSelectEnable'])?$_POST['subthemeSelectEnable']:false;
+	    $model->theme = $theme;
+	    if (isset($_POST['title'])) {
+		$model->title = $_POST['title'];
+		$titleEdit = false;
+	    }
+	    $model->author = Yii::app()->user->uid();
+	    $model->timestamp = date('Y-m-d');
+	    $model->md5body = '0';
+
+	    if(isset($_POST['ajax']) && $_POST['ajax']==='article-body-post-form') {
+		echo CActiveForm::validate($model);
+		Yii::app()->end();
+	    }
+	    if(isset($_POST['ArticleBody'])) {
+		$model->attributes=$_POST['ArticleBody'];
+		if($model->validate()) {
+		    // form inputs are valid, do something here
+		    $model->md5body = md5($model->body);
+		    $model->save();
+		    $model->refresh();
+		    $this->redirect(array('/article/view','artid'=>$model->artid));
+		    return;
+		}
+	    }
+	    $this->render('post',array('model'=>$model, 'titleEdit'=>$titleEdit, 'subthemeSelectEnable'=>$subthemeSelectEnable));
 	}
 
+	/** @fn actionTheme
+	  * @brief Отображение заданной темы
+	*/
 	public function actionTheme($themeid)
 	{
 	    $arttheme = ArticleTheme::model()->findByPk($themeid);

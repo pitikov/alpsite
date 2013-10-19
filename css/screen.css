@@ -118,3 +118,7 @@ div.rightcollumn {
 div.clear {
   clear:both;
 }
+
+div.redactor_box {
+  height:640px;
+}
