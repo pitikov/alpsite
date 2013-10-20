@@ -38,6 +38,17 @@ create table if not exists `site_pwdrequest` (
 	constraint `fk_site_pwdrequets_uid` foreign key (`uid`) references `site_user` (`uid`) on update cascade on delete cascade
 ) engine = innodb comment 'Запроссы восстановления пароля';
 
+create table if not exists `site_upload` (
+    `id` integer primary key auto_increment,
+    `serverpath` varchar(128) not null unique,
+    `mimetype` varchar(128) not null,
+    `icon` varchar(256) not null,
+    `description` varchar(256) default null,
+    `owner` integer not null,
+    key `fk_site_upload_owner` (`owner`),
+    constraint `fk_site_upload_owner` foreign key (`owner`) references `site_user` (`uid`) on update cascade on delete restrict
+) engine = innodb comment 'Описания загружаемых файлов';
+
 -- ******************* Статьи на сайте *****************************
 -- таблица тематики статей
 create table if not exists `article_theme` (
