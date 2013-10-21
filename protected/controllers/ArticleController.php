@@ -57,7 +57,7 @@ class ArticleController extends Controller
 			} else die ('image source not finded');
 		    } else die ('start image not finded');
 
-		    $model->brief = $model->brief.'<h3 id="brief_titile">'.$model->title.'</h3>';
+		    //$model->brief = $model->brief.'<h3 id="brief_titile">'.$model->title.'</h3>';
 		    /** @todo Для наполнения поля брифинга - найти в теле статьи первое вхождение тегов
 		     * <br/> или </div> или </p>, Взять текст до него и пропустить через strip_tags()
 		     */
