@@ -119,6 +119,17 @@ div.clear {
   clear:both;
 }
 
+div.article#body {
+    
+}
+
+div.article#author,
+div.article#timestamp {
+    text-align:right;
+    font-size: 10px;
+}
+/*
 div.redactor_box {
   height:640px;
 }
+*/

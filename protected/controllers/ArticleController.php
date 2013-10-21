@@ -13,7 +13,17 @@ class ArticleController extends Controller
 		$this->render('edit');
 	}
 
-	/** @fn actionPost
+        public function actionDelete($artid)
+        {
+            $article = ArticleBody::model()->findByPk($artid);
+            if (isset($article->artid)) {
+                $theme = $article->theme;
+                $article->delete();
+                $this->redirect(array('/article/theme','themeid'=>$theme));
+            } 
+        }
+
+        /** @fn actionPost
 	  * @brief Публикация новой статьи
 	  */
 	public function actionPost($theme)
@@ -27,7 +37,7 @@ class ArticleController extends Controller
 		$titleEdit = false;
 	    }
 	    $model->author = Yii::app()->user->uid();
-	    $model->timestamp = date('Y-m-d');
+	    $model->timestamp = date('Y-m-d h:i:s');
 	    $model->md5body = '0';
 
 	    if(isset($_POST['ajax']) && $_POST['ajax']==='article-body-post-form') {
@@ -40,9 +50,6 @@ class ArticleController extends Controller
 		    // form inputs are valid, do something here
 		    $model->md5body = md5($model->body);
 		    $model->brief = '<div class="briefing">';
-
-		    /** @test Для наполнения поля брифинга - найти в теле статьи первую картинку и вставить с
-		     * приемлемым размером отображения */
 		    $briefimgbegin = strpos($model->body, '<img');
 		    if ($briefimgbegin !== FALSE) {
 		      $briefimgend = strpos($model->body, '</img>');
@@ -54,13 +61,10 @@ class ArticleController extends Controller
 			  $splitstr = split('["\']', $bodyimg);
 
 			  $model->brief = $model->brief . '<img class="brifimg" src="'.$splitstr[1].'" width="200" height="150" align="left" hspace="10" vspace="10"/> ';
-			} else die ('image source not finded');
-		    } else die ('start image not finded');
+			}
+		    }
 
-		    //$model->brief = $model->brief.'<h3 id="brief_titile">'.$model->title.'</h3>';
-		    /** @todo Для наполнения поля брифинга - найти в теле статьи первое вхождение тегов
-		     * <br/> или </div> или </p>, Взять текст до него и пропустить через strip_tags()
-		     */
+		    $model->brief = $model->brief.'<h1 id="brief_titile">'.$model->title.'</h1>';
 		    $brief = strip_tags($model->body,'<p><div><br><h1><h2><h3><h4>');
 		    $pend = strpos($model->body, '</p>');
 		    $br = strpos($model->body, '<br/>');
@@ -77,6 +81,7 @@ class ArticleController extends Controller
 		    $model->brief = $model->brief.$brief;
 
 		    $model->brief = $model->brief.'</div>';
+                    $model->timestamp = date('Y-m-d H:i:s');
 		    $model->save();
 		    $model->refresh();
 		    $this->redirect(array('/article/view','artid'=>$model->artid));

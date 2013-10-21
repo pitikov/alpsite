@@ -37,7 +37,11 @@ class SiteController extends Controller
   {
     // renders the view file 'protected/views/site/index.php'
     // using the default layout 'protected/views/layouts/main.php'
-    $ArticleList = new CActiveDataProvider('ArticleBody');
+    $ArticleList = new CActiveDataProvider('ArticleBody', array(
+            'criteria'=>array(
+                'order'=>'timestamp DESC',
+            )
+        ));
     $this->render('index', array('ArticleList'=>$ArticleList));
   }
 
