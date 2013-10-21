@@ -9,12 +9,21 @@
 
 <h2>Что новенького</h2>
 
-<?php/*
-      $this->widget('zii.widgets.CListView', array(
-	  'dataProvider'=>$ArticleList,
-	  'itemView'=>'body',
-	 / * 'sortableAttributes'=>array(
-	    'timestamp',
-	  ),* /
-      ));*/
+<?php
+    $this->widget('zii.widgets.grid.CGridView', array(
+	'dataProvider'=>$ArticleList,
+	'columns'=>array(
+	    array(
+	      'name'=>'brief',
+	      'class'=>'ArticleBriefing',
+	     // 'type'=>'html',
+	    ),
+	),
+	'hideHeader'=>true,
+	'emptyText'=>'Новых публикаций не найдено',
+	'enablePagination'=>true,
+	'pager'=>array(
+	    'pageSize'=>10,
+	)
+    ));
 ?>

@@ -57,7 +57,9 @@ function getLabel()
 	      'name'=>'timestamp',
 	  ),array(
 	      'name'=>'brief',
-	      'header'=>'кратко'
+	      'header'=>'кратко',
+	      'class'=>'ArticleBriefing',
+	      'noImage'=>true,
 	  ),
       ),
     ));
