@@ -6,9 +6,6 @@
 ?>
 
 <h1><?php echo CHtml::encode(Yii::app()->name); ?></h1>
-
-<h2>Что новенького</h2>
-
 <?php
     $this->widget('zii.widgets.grid.CGridView', array(
 	'dataProvider'=>$ArticleList,

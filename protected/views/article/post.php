@@ -16,21 +16,21 @@
 	<?php echo $form->errorSummary($model); ?>
 
 	<div class="row">
-	    <?php 
+	    <?php
 		if ($subthemeSelectEnable) {
 		    echo $form->labelEx($model,'theme');
 		    echo $form->textField($model,'theme');
-		    echo $form->error($model,'theme'); 
+		    echo $form->error($model,'theme');
 		}
 	    ?>
 	</div>
 
 	<div class="row">
-	    <?php 
+	    <?php
 	      if ($titleEdit) {
 		echo $form->labelEx($model,'title');
 		echo $form->textField($model,'title');
-		echo $form->error($model,'title'); 
+		echo $form->error($model,'title');
 	      } else {
 		echo '<h1>'.$model->title.'</h1>';
 	      }
@@ -72,7 +72,7 @@
 		<?php echo $form->error($model,'keywords'); ?>
 	</div>
 	<div class="row">
-		<?php echo $form->labelEx($model,'brief'); 
+		<?php echo $form->labelEx($model,'brief');
 		    $this->widget('ImperaviRedactorWidget', array(
 			// You can either use it for model attribute
 			'model' => $model,

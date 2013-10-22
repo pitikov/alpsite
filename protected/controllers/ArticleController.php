@@ -8,9 +8,60 @@ class ArticleController extends Controller
 	    parent::init();
 	}
 
-	public function actionEdit($artId)
+	public function actionEdit($artid)
 	{
-		$this->render('edit');
+	    $article = ArticleBody::model()->findByPk($artid);
+	    if (isset($article->artid)) {
+	      if(isset($_POST['ajax']) && $_POST['ajax']==='article-body-post-form') {
+		echo CActiveForm::validate($article);
+		Yii::app()->end();
+	      }
+	      if(isset($_POST['ArticleBody'])) {
+		$article->attributes=$_POST['ArticleBody'];
+		if($article->validate()) {
+		    $article->timestamp = date('Y-m-d H:i:s');
+		    $article->md5body = md5($article->body);
+		    $article->brief = '<div class="briefing">';
+		    $briefimgbegin = strpos($article->body, '<img');
+		    if ($briefimgbegin !== FALSE) {
+		      $briefimgend = strpos($article->body, '</img>');
+		      if ($briefimgend === FALSE) $briefimgend = strlen($article->body);
+		      $bodyimg = substr($article->body, $briefimgbegin, $briefimgend - $briefimgbegin);
+		      $srcbegin = strpos($bodyimg, 'src');
+		      if ($srcbegin !== FALSE) {
+			$bodyimg = substr($bodyimg, $srcbegin);
+			$splitstr = split('["\']', $bodyimg);
+
+			$article->brief = $article->brief . '<img class="brifimg" src="'.$splitstr[1].'" width="200" height="150" align="left" hspace="10" vspace="10"/> ';
+		      }
+		    }
+
+		    $article->brief = $article->brief.'<h1 id="brief_titile">'.$article->title.'</h1>';
+		    $brief = strip_tags($article->body,'<p><div><br><h1><h2><h3><h4>');
+		    $pend = strpos($article->body, '</p>');
+		    $br = strpos($article->body, '<br/>');
+		    $divend = strpos($article->body, '</div>');
+		    $strippos = 0;
+		    if (($pend > $br) && ($pend > $divend)) {
+		      $strippos = $pend + 4;
+		    } elseif (($br > $pend) && ($br > $divend)) {
+		      $strippos = $br + 5;
+		    } else {
+		      $strippos = $divend + 6;
+		    }
+		    $brieffix = strip_tags(substr($brief, 0, $strippos), '<h1><h2><h3><h4>');
+		    $article->brief = $article->brief.$brieffix;
+
+		    $article->brief = $article->brief.'</div>';
+		    $article->save();
+		    $article->refresh();
+		    $this->redirect(array('/article/view','artid'=>$article->artid));
+		    return;
+		}
+	      }
+	      $this->render('post',array('model'=>$article, 'titleEdit'=>true, 'subthemeSelectEnable'=>false));
+	    }
+	    else throw new CHttpException(404, 'Запрашиваемая статья не найдена');
 	}
 
         public function actionDelete($artid)
@@ -19,8 +70,9 @@ class ArticleController extends Controller
             if (isset($article->artid)) {
                 $theme = $article->theme;
                 $article->delete();
+
                 $this->redirect(array('/article/theme','themeid'=>$theme));
-            } 
+            }
         }
 
         /** @fn actionPost
@@ -77,8 +129,8 @@ class ArticleController extends Controller
 		    } else {
 		      $strippos = $divend + 6;
 		    }
-		    $brief = strip_tags(substr($brief, 0, $strippos), '<h1><h2><h3><h4>');
-		    $model->brief = $model->brief.$brief;
+		    $brieffix = strip_tags(substr($brief, 0, $strippos), '<h1><h2><h3><h4>');
+		    $model->brief = $model->brief.$brieffix;
 
 		    $model->brief = $model->brief.'</div>';
                     $model->timestamp = date('Y-m-d H:i:s');
