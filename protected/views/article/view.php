@@ -4,9 +4,18 @@
             window.location.href = "/index.php/article/delete/?artid="+<?php echo $article->artid;?>;
         }
     }
+    
     function ArticleEdit()
     {
         window.location.href = "/index.php/article/edit/?artid="+<?php echo $article->artid;?>;
+    }
+    
+    function PostComment()
+    {
+        /// @todo Облагородить форму ввода комментария
+        var text = prompt('Что Вы думаете по этому поводу?','');
+        if (text)
+            window.location.href = "<?php echo $this->createUrl('/article/comment', array('artid'=>$article->artid, 'cid'=>0, 'text'=>'')); ?>"+text;
     }
 </script>
 <?php
@@ -18,6 +27,10 @@ $this->breadcrumbs=array(
 	$article->title,
 );
 ?>
+<h3><?php 
+    $parentdir = isset($article->theme0->parent)?CHtml::link($article->theme0->parent0->title,array('/article/theme','themeid'=>$article->theme0->parent))." / ":NULL;
+    echo $parentdir . CHtml::link($article->theme0->title, array('/article/theme','themeid'=>$article->theme));
+?></h3>
 <h1><?php echo $article->title; ?></h1>
 
 <div class ="article" id="body">
@@ -35,5 +48,29 @@ $this->breadcrumbs=array(
 <?php if ($article->author == Yii::app()->user->uid()) { ?>
 <input type="submit" value="Удалить" onclick="ArticleDelete();"/>
 <input type="submit" value="Редактировать" onclick="ArticleEdit();"/>
-<?php } ?>
+<?php if (!Yii::app()->user->isGuest) { ?>
+    <input type="submit" value="Комментировать" onclick="PostComment();"/>
+<?php 
+    } // !isGuest
+  } // $article->author == Yii::app()->user->uid()
+?>
+<?php
+    /// @todo Сюда интегрировать виджет комментариев
+    $this->widget('zii.widgets.grid.CGridView', array(
+	'dataProvider'=>$comments,
+	'columns'=>array(
+	    array(
+	      'name'=>'body',
+	      //'class'=>'ArticleBriefing',
+	     // 'type'=>'html',
+	    ),
+	),
+	'hideHeader'=>true,
+	'emptyText'=>'',
+	'enablePagination'=>true,
+	'pager'=>array(
+	    'pageSize'=>25,
+	)
+    ));
+?>
 

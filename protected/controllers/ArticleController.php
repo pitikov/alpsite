@@ -183,7 +183,12 @@ class ArticleController extends Controller
 	{
 	    $article = ArticleBody::model()->findByPk($artid);
 	    if (isset($article->body)) {
-		$this->render('view', array('article'=>$article));
+               // $comments = ArticleComment::model()->findByAttributes(array('parent'=>NULL, 'artid'=>$article->artid));
+                $comments = new CActiveDataProvider('ArticleComment',array(
+                        'criteria'=>array(
+                            'condition'=>'artid='.$article->artid.' and parent=0',
+                        )));
+		$this->render('view', array('article'=>$article, 'comments'=>$comments));
 	    } else {
 		throw new CHttpException(404,'Запрашиваемая статья не найдена');
 	    }
@@ -206,8 +211,19 @@ class ArticleController extends Controller
 	  $theme->delete();
 	  $this->redirect($this->createUrl('/article/theme', array('themeid'=>$parent)));
 	}
+        
+        public function actionComment($artid, $cid, $text)
+        {
+            $comment = new ArticleComment;
+            $comment->artid = $artid;
+            $comment->parent = $cid;
+            $comment->body = $text;
+            $comment->timestamp = date('Y-m-d H:i:s');
+            $comment->uid = Yii::app()->user->uid();
+            $this->redirect(array('/article/view', 'artid'=>$artid));
+        }
 
-	// Uncomment the following methods and override them if needed
+        // Uncomment the following methods and override them if needed
 	/*
 	public function filters()
 	{
