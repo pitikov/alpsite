@@ -21,7 +21,9 @@
 <?php
   Yii::app()->getClientScript()->registerCoreScript('jquery');
   Yii::app()->getClientScript()->registerScriptFile(Yii::app()->baseUrl . '/javascript/client.menu.js');
+  Yii::app()->getClientScript()->registerScriptFile(Yii::app()->baseUrl . '/javascript/client.article.js');
   Yii::app()->getClientScript()->registerCssFile(Yii::app()->baseUrl . '/css/screen.css', 'screen');
+
 ?>
 
 <style media="handheld">

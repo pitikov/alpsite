@@ -28,7 +28,7 @@ class ArticleComment extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-	
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -45,7 +45,7 @@ class ArticleComment extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, artid, uid, body, timestamp', 'required'),
+			array('artid, uid, body, timestamp', 'required'),
 			array('artid, uid', 'numerical', 'integerOnly'=>true),
 			array('id, parent', 'length', 'max'=>10),
 			// The following rule is used by search().

@@ -183,11 +183,14 @@ class ArticleController extends Controller
 	{
 	    $article = ArticleBody::model()->findByPk($artid);
 	    if (isset($article->body)) {
-               // $comments = ArticleComment::model()->findByAttributes(array('parent'=>NULL, 'artid'=>$article->artid));
-                $comments = new CActiveDataProvider('ArticleComment',array(
+	      $commentsList = ArticleComment::model()->findAllByAttributes(array('parent'=>null, 'artid'=>$article->artid));
+	      //$commentsList = ArticleComment::model()->findAllBySql('SELECT * from article_comment WHERE artid='.$article->artid.' and parent=NULL');
+	      $comments = new CArrayDataProvider($commentsList, array(
+               ));
+	      /* $comments = new CActiveDataProvider('ArticleComment',array(
                         'criteria'=>array(
-                            'condition'=>'artid='.$article->artid.' and parent=0',
-                        )));
+                            'condition'=>'artid='.$article->artid.' AND parent=null',
+                        )));*/
 		$this->render('view', array('article'=>$article, 'comments'=>$comments));
 	    } else {
 		throw new CHttpException(404,'Запрашиваемая статья не найдена');
@@ -211,16 +214,24 @@ class ArticleController extends Controller
 	  $theme->delete();
 	  $this->redirect($this->createUrl('/article/theme', array('themeid'=>$parent)));
 	}
-        
+
+	public function actionDeleteComment($artid, $cid, $pcid)
+	{
+	  $comment = ArticleComment::model()->findByPk($cid);
+	  if (isset($comment->id)) $comment->delete();
+	  $this->redirect($this->createUrl('/article/view', array('artid'=>$artid, 'cid'=>$cid)).'#c'.$pcid);
+	}
+
         public function actionComment($artid, $cid, $text)
         {
             $comment = new ArticleComment;
             $comment->artid = $artid;
-            $comment->parent = $cid;
-            $comment->body = $text;
+	    if ($cid!=0) $comment->parent = $cid;
+	    $comment->body = $text;
             $comment->timestamp = date('Y-m-d H:i:s');
             $comment->uid = Yii::app()->user->uid();
-            $this->redirect(array('/article/view', 'artid'=>$artid));
+            if ($comment->save()) $this->redirect($this->createUrl('/article/view', array('artid'=>$artid)).'#c'.$cid);
+            else throw new CHttpException(401, 'Ошибка сохранения данных - '.$comment->getError('uid'));
         }
 
         // Uncomment the following methods and override them if needed

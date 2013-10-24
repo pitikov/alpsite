@@ -98,7 +98,7 @@ create table if not exists `article_body` (
 ) engine = innodb comment 'Описание тела статьи';
 
 create table if not exists `article_comment` (
-	`id` integer unsigned primary key,
+	`id` integer unsigned primary key auto_increment,
 	`artid` integer not null comment 'указатель на статью',
 	`uid` integer not null comment 'автор кмеента',
 	`parent` integer unsigned default null comment 'Указатель на комментируемый комментарий',
