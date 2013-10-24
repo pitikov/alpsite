@@ -22,8 +22,8 @@ class ArticleCommentItem extends CDataColumn {
       ?>
       </div>
       <?php
-     /* if ($comments->getItemCount() > 0 )
-	$this->widget('zii.widgets.grid.CGridView', array(
+      if ($comments->getItemCount() > 0 )
+	$this->grid->widget('zii.widgets.grid.CGridView', array(
 	  'dataProvider'=>$comments,
 	  'columns'=>array(
 	    array(
@@ -34,11 +34,8 @@ class ArticleCommentItem extends CDataColumn {
 	),
 	'hideHeader'=>true,
 	'emptyText'=>'no comments',
-	'enablePagination'=>true,
-	'pager'=>array(
-	  'pageSize'=>25,
-	)
-	));*/
+	'enablePagination'=>false,
+	));
      ?>
      <a href name="c<?php echo $data->id; ?>"/>
      <?php

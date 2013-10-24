@@ -8,6 +8,10 @@ class ArticleController extends Controller
 	    parent::init();
 	}
 
+        /** @fn actionEdit
+         * @param integer $artid номер записи статьи в БД
+         * 
+         * @brief Вызывает форму редактирования статьи */
 	public function actionEdit($artid)
 	{
 	    $article = ArticleBody::model()->findByPk($artid);
@@ -55,7 +59,7 @@ class ArticleController extends Controller
 		    $article->brief = $article->brief.'</div>';
 		    $article->save();
 		    $article->refresh();
-		    $this->redirect(array('/article/view','artid'=>$article->artid));
+		    $this->redirect($this->createUrl('/article/view',array('artid'=>$article->artid))."#c0");
 		    return;
 		}
 	      }

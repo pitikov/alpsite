@@ -76,11 +76,11 @@ class ArticleComment extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'artid' => 'Artid',
-			'uid' => 'Uid',
-			'parent' => 'Parent',
-			'body' => 'Body',
-			'timestamp' => 'Timestamp',
+			'artid' => 'Статья',
+			'uid' => 'Автор',
+			'parent' => 'Над комментарий',
+			'body' => 'Тело',
+			'timestamp' => 'Дата время',
 		);
 	}
 
