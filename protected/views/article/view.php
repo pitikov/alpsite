@@ -1,3 +1,4 @@
+<?php $this->layout='//layouts/article' ?>
 <script type="text/javascript">
     function ArticleDelete() {
         if (confirm('Удалить статью ?')) {
@@ -59,7 +60,7 @@ if (!Yii::app()->user->isGuest) { ?>
 <input type="submit" value="Комментировать" onclick="PostComment(0);"/>
 <?php } // !isGuest ?>
 <?php
-    if ($comments->getItemCount() > 0 )
+    if ( isset($comments) && ($comments->getItemCount() > 0 ))
     $this->widget('zii.widgets.grid.CGridView', array(
 	'dataProvider'=>$comments,
 	'columns'=>array(
@@ -69,8 +70,10 @@ if (!Yii::app()->user->isGuest) { ?>
 	     // 'type'=>'html',
 	    ),
 	),
+        'template'=>'{pager} {items} {pager}',
 	'hideHeader'=>true,
 	'emptyText'=>'no comments',
+        'summaryText'=>'',
 	'enablePagination'=>true,
 	'pager'=>array(
 	    'pageSize'=>25,

@@ -128,8 +128,20 @@ div.article#timestamp {
     text-align:right;
     font-size: 10px;
 }
-/*
-div.redactor_box {
-  height:640px;
+
+div.article_comment {
+    font-size: 12px;
 }
-*/
+div.article_comment_header {
+    display: block;
+}
+
+div.article_comment#author, div.article_comment#timestamp {
+    display: inline;
+}
+
+div.article_comment#author {float: right;}
+div.article_comment#timestamp {float: left;}
+
+hr.article_comment {color: #D0E3EF;}
+
