@@ -11,8 +11,9 @@ class OfficialController extends Controller
 
   public function actionRules()
   {
+      $artTheme = 1;
       $artTitle = 'Устав федерации альпинизма Пензенской области';
-      $article = ArticleBody::model()->findByAttributes(array('title'=>$artTitle,'theme'=>'1'));
+      $article = ArticleBody::model()->findByAttributes(array('title'=>$artTitle,'theme'=>$artTheme));
       if (isset($article->artid)) {
           $this->redirect($this->createUrl('/article/view',array('artid'=>$article->artid)));
       } else {
@@ -20,7 +21,7 @@ class OfficialController extends Controller
           {
               throw new CHttpException(404, 'Искомая статья не найденна');
           } else {
-              $this->redirect($this->createUrl('/article/post',array('theme'=>'1', 'tEdit'=>false, 'title'=>$artTitle)));
+              $this->redirect($this->createUrl('/article/post',array('theme'=>$artTheme, 'tEdit'=>false, 'title'=>$artTitle)));
           }          
       }
   }
