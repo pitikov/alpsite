@@ -10,9 +10,6 @@
 	'id'=>'article-body-post-form',
 	'enableAjaxValidation'=>false,
 )); ?>
-
-<?php //	<p class="note">Fields with <span class="required">*</span> are required.</p> ?>
-
 	<?php echo $form->errorSummary($model); ?>
 
 	<div class="row">
@@ -27,7 +24,7 @@
 
 	<div class="row">
 	    <?php
-	      if ($titleEdit) {
+	      if ($titleEdit==true) {
 		echo $form->labelEx($model,'title');
 		echo $form->textField($model,'title');
 		echo $form->error($model,'title');

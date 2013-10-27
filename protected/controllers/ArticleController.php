@@ -82,16 +82,13 @@ class ArticleController extends Controller
         /** @fn actionPost
 	  * @brief Публикация новой статьи
 	  */
-	public function actionPost($theme)
+	public function actionPost($theme, $title='', $tEdit = true)
 	{
 	    $model = new ArticleBody;
-	    $titleEdit = true;
+	    $titleEdit = $tEdit;
 	    $subthemeSelectEnable = isset($_POST['subthemeSelectEnable'])?$_POST['subthemeSelectEnable']:false;
 	    $model->theme = $theme;
-	    if (isset($_POST['title'])) {
-		$model->title = $_POST['title'];
-		$titleEdit = false;
-	    }
+            $model->title = $title;
 	    $model->author = Yii::app()->user->uid();
 	    $model->timestamp = date('Y-m-d h:i:s');
 	    $model->md5body = '0';
@@ -109,7 +106,9 @@ class ArticleController extends Controller
 		    $briefimgbegin = strpos($model->body, '<img');
 		    if ($briefimgbegin !== FALSE) {
 		      $briefimgend = strpos($model->body, '</img>');
-		      if ($briefimgend === FALSE) $briefimgend = strlen($model->body);
+                      if ($briefimgend === FALSE) {
+                          $briefimgend = strlen($model->body);                      
+                      }
 			$bodyimg = substr($model->body, $briefimgbegin, $briefimgend - $briefimgbegin);
 			$srcbegin = strpos($bodyimg, 'src');
 			if ($srcbegin !== FALSE) {
@@ -177,24 +176,22 @@ class ArticleController extends Controller
 	{
 	    $themes = new CActiveDataProvider('ArticleTheme',array(
 		'criteria'=>array(
-		    //'condition'=>'parent',
 		)
 	    ));
 	    $this->render('themelist',array('themelist'=>$themes));
 	}
 
+        /** @fn actionView
+         * @brief Просмотр статьи
+         * 
+         * @param integer $artid */
 	public function actionView($artid)
 	{
 	    $article = ArticleBody::model()->findByPk($artid);
 	    if (isset($article->body)) {
 	      $commentsList = ArticleComment::model()->findAllByAttributes(array('parent'=>null, 'artid'=>$article->artid));
-	      //$commentsList = ArticleComment::model()->findAllBySql('SELECT * from article_comment WHERE artid='.$article->artid.' and parent=NULL');
 	      $comments = new CArrayDataProvider($commentsList, array(
                ));
-	      /* $comments = new CActiveDataProvider('ArticleComment',array(
-                        'criteria'=>array(
-                            'condition'=>'artid='.$article->artid.' AND parent=null',
-                        )));*/
 		$this->render('view', array('article'=>$article, 'comments'=>$comments));
 	    } else {
 		throw new CHttpException(404,'Запрашиваемая статья не найдена');

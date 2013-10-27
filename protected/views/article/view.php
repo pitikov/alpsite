@@ -1,4 +1,4 @@
-<?php $this->layout='//layouts/article' ?>
+<?php $this->layout=$this->layout=='//layouts/column2'?'//layouts/article':$this->layout; ?>
 <script type="text/javascript">
     function ArticleDelete() {
         if (confirm('Удалить статью ?')) {
@@ -53,11 +53,11 @@ $this->breadcrumbs=array(
     ?>
 </div>
 <?php if ($article->author == Yii::app()->user->uid()) { ?>
-<input type="submit" value="Удалить" onclick="ArticleDelete();"/>
-<input type="submit" value="Редактировать" onclick="ArticleEdit();"/>
+    <input type="submit" value="Удалить" onclick="ArticleDelete();"/>
+    <input type="submit" value="Редактировать" onclick="ArticleEdit();"/>
 <?php } // $article->author == Yii::app()->user->uid()
 if (!Yii::app()->user->isGuest) { ?>
-<input type="submit" value="Комментировать" onclick="PostComment(0);"/>
+    <input type="submit" value="Комментировать" onclick="PostComment(0);"/>
 <?php } // !isGuest ?>
 <?php
     if ( isset($comments) && ($comments->getItemCount() > 0 ))

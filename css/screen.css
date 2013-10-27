@@ -145,3 +145,11 @@ div.article_comment#timestamp {float: left;}
 
 hr.article_comment {color: #D0E3EF;}
 
+div#beSocial {
+    display: inline-block;
+    float: left;
+}
+
+div#content {
+    padding-right: 10px;
+}
