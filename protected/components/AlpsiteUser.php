@@ -53,6 +53,30 @@
         {
 	    return isset(Yii::app()->request->cookies['identType']) ? Yii::app()->request->cookies['identType']->value : 'NoIdentity';
         }
+
+	public function isAdmin()
+	{
+	  /// @bug Ошибка выполнения
+	  $access = false;
+	  if ($this->uid() != 0) {
+	    $user = SiteUser::model()->findByAttributes(array('uid'=>$this->uid(), 'accessrules'&&'site_admin'));
+	    $access = isset($user->uid);
+	  }
+	  return $access;
+	}
+
+        public function isModerator($theme)
+	{
+	  $access = false;
+	  $user = SiteUser::model()->findByPk($this->uid());
+	  $access = isset($user->accessrules)?true:$access;
+	  //$access = $this->isAdmin();
+	  $themeModerator = ArticleModerator::model()->findByAttributes(array('uid'=>$this->uid(), 'theme'=>$theme));
+	  $access = isset($themeModerator->id);
+	  return $access;
+	}
+
+
     }
 
 ?>

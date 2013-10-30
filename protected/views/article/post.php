@@ -56,39 +56,6 @@
 		?>
 		<?php echo $form->error($model,'body'); ?>
 	</div>
-<?php /*
-	<div class="row">
-		<?php echo $form->labelEx($model,'md5body'); ?>
-		<?php echo $form->textField($model,'md5body'); ?>
-		<?php echo $form->error($model,'md5body'); ?>
-	</div>
-?>
-	<div class="row">
-		<?php echo $form->labelEx($model,'keywords'); ?>
-		<?php echo $form->textField($model,'keywords'); ?>
-		<?php echo $form->error($model,'keywords'); ?>
-	</div>
-	<div class="row">
-		<?php echo $form->labelEx($model,'brief');
-		    $this->widget('ImperaviRedactorWidget', array(
-			// You can either use it for model attribute
-			'model' => $model,
-			'attribute' => 'brief',
-
-			// or just for input field
-			'name' => 'message_body',
-
-			// Some options, see http://imperavi.com/redactor/docs/
-			'options' => array(
-			    'lang' => 'ru',
-			    'toolbar' => true,
-			    'iframe' => true,
-			    'css' => 'wym.css',
-			),
-		    ));
-		    echo $form->error($model,'brief'); */?>
-	</div>
-
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Сохранить'); ?>

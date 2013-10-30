@@ -10,7 +10,7 @@ class ArticleController extends Controller
 
         /** @fn actionEdit
          * @param integer $artid номер записи статьи в БД
-         * 
+         *
          * @brief Вызывает форму редактирования статьи */
 	public function actionEdit($artid)
 	{
@@ -107,7 +107,7 @@ class ArticleController extends Controller
 		    if ($briefimgbegin !== FALSE) {
 		      $briefimgend = strpos($model->body, '</img>');
                       if ($briefimgend === FALSE) {
-                          $briefimgend = strlen($model->body);                      
+                          $briefimgend = strlen($model->body);
                       }
 			$bodyimg = substr($model->body, $briefimgbegin, $briefimgend - $briefimgbegin);
 			$srcbegin = strpos($bodyimg, 'src');
@@ -183,7 +183,7 @@ class ArticleController extends Controller
 
         /** @fn actionView
          * @brief Просмотр статьи
-         * 
+         *
          * @param integer $artid */
 	public function actionView($artid)
 	{
@@ -205,6 +205,11 @@ class ArticleController extends Controller
 	  $article->parent = $parent;
 	  /// @todo Добавить валидацию введенного значения
 	  if ($article->save()) {
+	    $article->refresh();
+	    $moderator = new ArticleModerator;
+	    $moderator->uid = Yii::app()->user->uid();
+	    $moderator->theme = $article->id;
+	    $moderator->save();
 	    $this->redirect($this->createUrl('/article/theme', array('themeid'=>$parent)));
 	  }
 	}

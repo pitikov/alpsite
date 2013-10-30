@@ -52,7 +52,7 @@ $this->breadcrumbs=array(
         echo $date->format('d.m.Y (H:i)');
     ?>
 </div>
-<?php if ($article->author == Yii::app()->user->uid()) { ?>
+<?php if (($article->author == Yii::app()->user->uid()) | Yii::app()->user->isModerator($article->theme)) { ?>
     <input type="submit" value="Удалить" onclick="ArticleDelete();"/>
     <input type="submit" value="Редактировать" onclick="ArticleEdit();"/>
 <?php } // $article->author == Yii::app()->user->uid()
