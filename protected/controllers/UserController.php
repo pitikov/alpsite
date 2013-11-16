@@ -22,8 +22,8 @@ class UserController extends Controller
 	    if (!Yii::app()->user->isGuest) {
 		$this->layout = '//layouts/column2';
 		$this->menu = array(
-	            array('label'=>'Профиль','url'=>array('/user/profile')),
-	            array('label'=>'Привязка соц.сетей','url'=>array('/user/openidattach')),
+	            /*array('label'=>'Профиль','url'=>array('/user/profile')),
+	            array('label'=>'Привязка соц.сетей','url'=>array('/user/openidattach')),*/
 	            array('label'=>'Выйти','url'=>array('/user/logout')),
 	        );
 	    }
@@ -161,8 +161,6 @@ class UserController extends Controller
 
 			    Yii::app()->user->login($identity);
   
-			   //var_dump($identity->id, $identity->name, Yii::app()->user->id);exit;
-
 			    // специальный вызов закрытия всплывающего окна
 			    $eauth->redirect();
 			} else {
@@ -219,7 +217,61 @@ class UserController extends Controller
 	*/
 	public function actionProfile()
 	{
-		$this->render('profile');
+                $uid = Yii::app()->user->uid();
+                $user = SiteUser::model()->findByPk($uid);
+                $dossier = LibUserDossier::model()->findByAttributes(array('uid'=>$uid));
+                if (!isset($dossier->id)) {
+                    $dossier = new LibUserDossier();
+                    $dossier->uid = $uid;
+                    $dossier->name = Yii::app()->user->name();
+                }
+                
+                if(isset($_POST['ajax']) && $_POST['ajax']==='lib-user-dossier-dossier-form')
+                {
+                    echo CActiveForm::validate($dossier);
+                    Yii::app()->end();
+                }
+                if(isset($_POST['LibUserDossier']))
+                {
+                    // получаем данные от пользователя
+                    $dossier->attributes=$_POST['LibUserDossier'];
+                    // проверяем полученные данные и, если результат проверки положительный,
+                    // сохраняем данные
+                    if($dossier->validate()) {
+                        // @fixme Не заполняется поле $dossier->date_of_bethday
+                        $dossier->date_of_bethday = (!is_null($dossier->dob)&&($dossier->dob!=''))?date_create_from_format('d.m.Y',$dossier->dob)->format('Y-m-d'):null;
+                        $dossier->save();
+                        $this->redirect($this->createUrl('/user/profile').'#tab2');
+                    }
+                }
+
+                $climbingList = new CActiveDataProvider('LibClimbingList', array(
+                        'criteria'=>array(
+                            'condition'=>'member='.$uid,
+                        ), 'pagination'=>array(
+                            'pageSize'=>50,
+                        )
+                    )
+                );
+                $articles = new CActiveDataProvider('ArticleBody',
+                    array(
+                        'criteria'=>array(
+                            'condition'=>"author=$uid",
+                            'order'=>'timestamp DESC',
+                        ),
+                        'pagination'=>array(
+                            'pageSize'=>10,
+                        )
+                    )
+                );
+                
+                $federation = FederationMember::model()->findByPk($dossier->id);
+                if (!isset($federation->dossier)) {
+                  $federation = new FederationMember();
+                  $federation->dossier = $dossier->id;
+                }
+                
+		$this->render('profile', array('user'=>$user, 'dossier'=>$dossier ,'climbingList'=>$climbingList, 'articles'=>$articles, 'federation'=>$federation));
 	}
 
 	public function actionPwdrecovery()
@@ -236,10 +288,28 @@ class UserController extends Controller
 	{
 		$this->render('openidattach');
 	}
-
-	public function actionOpenidAuthorizated($emal)
+	
+	public function actionDossierDelete($id, $url)
 	{
-
+            $dossier = LibUserDossier::model()->findAllByPk($id);
+            if (isset($dossier->id)) {
+              $dossier->delete();
+              $this->redirect($url);
+            } else {
+              throw new CHttpException(404, 'Досье не найденно');
+              
+            }
+	}
+	public function actionClimbingDelete($id) 
+	{
+            $climbing = LibClimbingList::model()->findByPk($id);
+            if (isset($climbing->id)) {
+                $climbing->delete();
+                $this->redirect($this->createUrl('/user/profile').'#tab3');
+            } else {
+                throw new CHttpException(404, 'Данные не найденны');
+                
+            }
 	}
 
 	/** @fn actionRegistration

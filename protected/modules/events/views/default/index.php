@@ -5,13 +5,34 @@ $this->breadcrumbs=array(
 	$this->module->id,
 );
 ?>
-<h1><?php echo $this->uniqueId . '/' . $this->action->id; ?></h1>
+<h1>События</h1>
 
-<p>
-This is the view content for action "<?php echo $this->action->id; ?>".
-The action belongs to the controller "<?php echo get_class($this); ?>"
-in the "<?php echo $this->module->id; ?>" module.
-</p>
-<p>
-You may customize this page by editing <tt><?php echo __FILE__; ?></tt>
-</p>
+<?php 
+    $this->beginWidget('system.web.widgets.CClipWidget', array('id'=>'Календарь'));
+    ?>
+    <div style='display=inline-block; float=left;'>
+    <?php
+    $this->widget('zii.widgets.jui.CJuiDatePicker',
+        array(
+            'name'=>'inline_datepicker',
+            'flat' => true, // tells the widget to show the calendar inline
+            'language'=>'ru'
+            )
+        );
+        ?>
+        </div>
+    <div style='display=inline-block; float=left;'>
+        <?php
+    ?>
+    </div>
+    <?php
+    $this->endWidget(); ?>
+<?php $this->beginWidget('system.web.widgets.CClipWidget', array('id'=>'Список событий')); ?>
+<?php $this->endWidget(); ?>
+<?php
+$tabParameters = array();
+foreach($this->clips as $key=>$clip)
+    $tabParameters['tab'.(count($tabParameters)+1)] = array('title'=>$key, 'content'=>$clip);
+?>
+ 
+<?php $this->widget('system.web.widgets.CTabView', array('tabs'=>$tabParameters)); ?>

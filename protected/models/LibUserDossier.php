@@ -22,6 +22,7 @@
  */
 class LibUserDossier extends CActiveRecord
 {
+        public $dob;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -126,4 +127,11 @@ class LibUserDossier extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+	
+        protected function afterFind()
+        {
+            $this->dob = is_null($this->date_of_bethday)?null:date_create_from_format('Y-m-d', $this->date_of_bethday)->format('d.m.Y');
+            
+            parent::afterFind();
+        }
 }

@@ -2,6 +2,13 @@
 /* @var $this ArticleBodyController */
 /* @var $model ArticleBody */
 /* @var $form CActiveForm */
+
+if ($model->isNewRecord) {
+  ?><h1>Публикация новой статьи</h1><?php
+} else {
+  ?><h1><?php echo $model->title. ' (редактирование)'?></h1><?php
+}
+
 ?>
 
 <div class="form">
@@ -10,6 +17,7 @@
 	'id'=>'article-body-post-form',
 	'enableAjaxValidation'=>false,
 )); ?>
+
 	<?php echo $form->errorSummary($model); ?>
 
 	<div class="row">

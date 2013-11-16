@@ -93,7 +93,7 @@ class ArticleBody extends CActiveRecord
 			'theme' => 'Тема',
 			'author' => 'Автор',
 			'timestamp' => 'дата',
-			'title' => 'нвазвание',
+			'title' => 'название',
 			'body' => 'тело',
 			'brief' => 'кратко',
 			'md5body' => 'Md5body',

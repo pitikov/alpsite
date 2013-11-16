@@ -153,3 +153,13 @@ div#beSocial {
 div#content {
     padding-right: 10px;
 }
+
+div.warning {
+    padding:5px;
+    background-color:#C0FFC0;
+    border:1px solid green;
+}
+
+span.required {
+  color:red;
+}

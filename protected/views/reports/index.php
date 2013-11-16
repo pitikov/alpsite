@@ -2,7 +2,7 @@
 /* @var $this ReportsController */
 
 $this->breadcrumbs=array(
-	'Reports',
+	'Статьи и отчеты',
 );
 ?>
 <h1><?php echo $this->id . '/' . $this->action->id; ?></h1>

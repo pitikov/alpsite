@@ -16,6 +16,9 @@
  */
 class FederationMember extends CActiveRecord
 {
+        public $memberfrom;
+        public $memberto;
+        
 	/**
 	 * @return string the associated database table name
 	 */
@@ -112,4 +115,13 @@ class FederationMember extends CActiveRecord
 	{
 	  return isset($this->federation_role) ? $this->federationRole->role . "<br/>" : "";
 	}
+	
+	
+        protected function afterFind()
+        {
+            $this->memberfrom = date_create_from_format('Y-m-d', $this->member_from)->format('d.m.Y');
+            $this->memberto = isset($this->member_to)?date_create_from_format('Y-m-d', $this->member_to)->format('d.m.Y'):null;
+            parent::afterFind();
+        }
+        
 }
