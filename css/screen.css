@@ -163,3 +163,8 @@ div.warning {
 span.required {
   color:red;
 }
+
+div.errorMessage {
+    background-color: pink;
+    border:1px solid red;
+}

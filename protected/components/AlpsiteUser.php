@@ -46,7 +46,12 @@
 	    return isset(Yii::app()->request->cookies['uid']) ? Yii::app()->request->cookies['uid']->value : 0;
         }
 
-        /** @fn identType
+        public function name()
+        {
+            return isset(Yii::app()->request->cookies['name']) ? Yii::app()->request->cookies['name']->value : 0;
+        }
+
+         /** @fn identType
 	  * @brief Получить тип аутентификации текущего пользователя
 	  */
         public function identType()

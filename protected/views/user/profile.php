@@ -201,6 +201,8 @@ $guideList = array(
         )
     ));
     
+    echo CHtml::link('Добавить', $this->createUrl('/user/climbingAdd', array('uid'=>Yii::app()->user->uid(), 'url'=>$this->createUrl('/user/profile').'#tab3')));
+    
     $this->endWidget(); 
     $this->beginWidget('system.web.widgets.CClipWidget', array('id'=>'Публикации'));
     

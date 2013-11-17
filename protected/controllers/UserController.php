@@ -308,11 +308,93 @@ class UserController extends Controller
                 $this->redirect($this->createUrl('/user/profile').'#tab3');
             } else {
                 throw new CHttpException(404, 'Данные не найденны');
-                
             }
 	}
+        
+        /// @bug Не отрабатывает возврат на страницу
+        public function actionClimbingEdit($id, $uid)
+        {
+            $climbing = LibClimbingList::model()->findByPk($id);
+            if (isset($climbing->id)) {
+                /// @todo Редактировать модель
+                $reports = array(null=>'без отчета');
+                
+                $articleList = ArticleBody::model()->findAllByAttributes(array('author'=>$uid, 'theme'=>3));
+            
+                if (count($articleList)>0) {
+                    foreach ($articleList as $value) {
+                        array_push($reports, array($value->artid => $value->title));
+                    }
+                }
+                
+                if(isset($_POST['ajax']) && $_POST['ajax']==='lib-climbing-list-climbingEdit-form')
+                {
+                    echo CActiveForm::validate($model);
+                    Yii::app()->end();
+                }
+                
+                if(isset($_POST['LibClimbingList']))
+                {
+                    $model->attributes=$_POST['LibClimbingList'];
+                    if($model->validate())
+                    {
+                        /// @bug Не возвращается на страницу профиля
+                        if ($model->update()) {
+                            $this->redirect($this->createUrl('/user/profile').'#tab3');
+                        } else {
+                            throw new CHttpException(400, 'Ошибка сохранения данных');
+                        }
+                    }
+                }
+                $this->render('climbing',array('model'=>$climbing, 'reports'=>$reports));
+            } else {
+                throw new CHttpException(404, 'Данные не найденны');
+            }
+        }
 
-	/** @fn actionRegistration
+        /** @fn actionClimbingAdd
+         * @param type $uid
+         * @param type $url
+         * @throws CHttpException */
+        public function actionClimbingAdd($uid, $url)
+        {
+            $model=new LibClimbingList('insert');
+            $model->member = $uid;
+            
+            $reports = array(null=>'без отчета');
+            
+            $articleList = ArticleBody::model()->findAllByAttributes(array('author'=>$uid, 'theme'=>3));
+            
+            if (count($articleList)>0) {
+                foreach ($articleList as $value) {
+                    array_push($reports, array($value->artid => $value->title));
+                }
+            }
+            
+            // uncomment the following code to enable ajax-based validation
+            if(isset($_POST['ajax']) && $_POST['ajax']==='lib-climbing-list-climbingAdd-form')
+            {
+                echo CActiveForm::validate($model);
+                Yii::app()->end();
+            }
+            
+            if(isset($_POST['LibClimbingList']))
+            {
+                $model->attributes=$_POST['LibClimbingList'];
+                if($model->validate())
+                {
+                    // form inputs are valid, do something here
+                    if ($model->save()) {
+                        $this->redirect($url);
+                    } else {
+                        throw new CHttpException(404, 'Ошибка сохранения данных');
+                    }
+                }    
+            }
+            $this->render('climbing',array('model'=>$model, 'reports'=>$reports));         
+        }
+        
+        /** @fn actionRegistration
 	* @brief Регистрация пользователя (локальная регистрация)
 	*/
 	public function actionRegistration()
