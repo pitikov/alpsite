@@ -1,3 +1,12 @@
+<script type="text/javascript">
+function deleteDossier()
+{
+  if (confirm('Удалить досье?')) {
+    window.location.assign(<?php $this->createUrl('/user/dossierDelete', array('id'=>$dossier->id, 'url'=>$this->createUrl('/user/profile')))?>);
+  }
+}
+</script>
+
 <?php
 /* @var $this UserController */
 
@@ -54,44 +63,61 @@ $guideList = array(
 
     <?php echo $form->errorSummary($dossier); ?>
 
-    <div class="row">
-        <?php echo $form->labelEx($dossier,'name'); ?>
-        <?php echo $form->textField($dossier,'name'); ?>
-        <?php echo $form->error($dossier,'name'); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->labelEx($dossier,'mountain_resque'); ?>
-        <?php echo $form->textField($dossier,'mountain_resque'); ?>
-        <?php echo $form->error($dossier,'mountain_resque'); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->labelEx($dossier,'photo'); ?>
-        <?php echo $form->textField($dossier,'photo'); ?>
-        <?php echo $form->error($dossier,'photo'); ?>
-    </div>
-
-    <div class="row">
-        <?php 
-            
-            echo $form->labelEx($dossier,'sport_range');
-            echo $form->dropDownList($dossier,'sport_range',$rangeList);
-            echo $form->error($dossier,'sport_range'); 
-        ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->labelEx($dossier,'mountain_guide'); ?>
-        <?php echo $form->dropDownList($dossier,'mountain_guide', $guideList); ?>
-        <?php echo $form->error($dossier,'mountain_guide'); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->labelEx($dossier,'date_of_bethday'); ?>
-        <?php 
-            echo $form->textField($dossier,'date_of_bethday'); 
-            $this->widget('zii.widgets.jui.CJuiDatePicker',array(
+    <table>
+      <tbody>
+        <tr>
+          <td><?php echo $form->labelEx($dossier,'name'); ?></td>
+          <td><?php echo $form->textField($dossier,'name'); ?></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <?php echo $form->error($dossier,'name'); ?>
+          </td>
+        </tr>
+        <tr>
+          <td><?php echo $form->labelEx($dossier,'mountain_resque'); ?></td>
+          <td><?php echo $form->textField($dossier,'mountain_resque'); ?></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <?php echo $form->error($dossier,'mountain_resque'); ?>
+          </td>
+        </tr>
+        <tr>
+          <td><?php echo $form->labelEx($dossier,'photo'); ?></td>
+          <td><?php echo $form->textField($dossier,'photo'); ?></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <?php echo $form->error($dossier,'photo'); ?>
+          </td>
+        </tr>
+        <tr>
+          <td><?php echo $form->labelEx($dossier,'sport_range'); ?></td>
+          <td><?php echo $form->dropDownList($dossier,'sport_range',$rangeList); ?></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <?php echo $form->error($dossier,'sport_range'); ?>
+          </td>
+        </tr>
+        <tr>
+          <td><?php echo $form->labelEx($dossier,'mountain_guide'); ?></td>
+          <td><?php echo $form->dropDownList($dossier,'mountain_guide', $guideList); ?></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <?php echo $form->error($dossier,'mountain_guide'); ?>
+          </td>
+        </tr> 
+        <tr>
+          <td><?php echo $form->labelEx($dossier,'date_of_bethday'); ?></td>
+          <td><?php $this->widget('zii.widgets.jui.CJuiDatePicker',array(
                 'name'=>'date_of_bethday',
                 'model'=>$dossier,
                 'attribute'=>'dob',
@@ -105,24 +131,33 @@ $guideList = array(
                 'htmlOptions'=>array(
                     'style'=>'height:20px;'
                 ),
-            ));
-        ?>
-        <?php echo $form->error($dossier,'date_of_bethday'); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->labelEx($dossier,'about'); ?>
-        <?php echo $form->textArea($dossier,'about'); ?>
-        <?php echo $form->error($dossier,'about'); ?>
-    </div>
-
+            ));?></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <?php echo $form->error($dossier,'date_of_bethday'); ?>
+          </td>
+        </tr>
+        <tr>
+          <td><?php echo $form->labelEx($dossier,'about'); ?></td>
+          <td><?php echo $form->textArea($dossier,'about'); ?></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <?php echo $form->error($dossier,'about'); ?>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
     <div class="row buttons">
     <?php 
         echo CHtml::submitButton($dossier->isNewRecord?'Создать':'Изменить');
         if (!$dossier->isNewRecord) {
     ?>
-      <input type='button' value='Удалить' on='confirm(\'Удалить досье?\')'/>
+      <input type='button' value='Удалить' onclick='deleteDossier()'/>
     <?php } ?>
     </div>
 
