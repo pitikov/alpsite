@@ -25,7 +25,7 @@
 
 <style media="screen">
 	
-	* { box-sizing: border-box; }
+	* { box-sizing: border-box; -moz-box-sizing: border-box; }
 	
 	html, body { padding: 0; margin: 0; height: 100%; width: 100%; }
 	
@@ -36,17 +36,18 @@
 	
 	header {
 		position: absolute;
-		width: 230px;
-		height: 100%;
+		width: 100%;
+		height: 135px;
 		z-index: 10;
-		background: rgb(35, 35, 35);
-//		background: url("images/submenu-background.png") repeat-y;
-		box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.15);
+		background: rgba(0, 0, 5, 0.9) url("images/header-background.png") repeat-x;
+//		background: url("images/submenu-background.png") repeat-x;
+		box-shadow: 0px 5px 10px rgba(0, 0, 5, 0.15);
+		overflow: hidden;
 	}
 	
-	#copyright { position: absolute; bottom: 10px; padding: 0 10px; font-size: 9pt; color: rgb(60, 85, 115); z-index:15; }
-	#logo { height: 250px; position: relative; left: 50%; margin-left: -35%; width: 70%; }
-	#logo img { width: 100%; position: absolute; bottom: 20px; }
+	#logo { height: 100px; position: relative; top: 5px; left: 20px; }
+	#logo img { float: left; height: 100%; margin-right:25px; }
+	#logo a span { font: 28pt/32pt "Georgia", serif; vertical-align: top; color: rgb(60, 75, 115); }
 
 	nav#main-navigation {
 		position: absolute;
@@ -54,47 +55,59 @@
 		bottom: 0px;
 		width: 100%;
 		height: 100%;
-		background: url("images/header-background.png") repeat-y;
+		background: 
 		z-index: 11;
 	}
 	
-	nav#main-navigation a.main-item { 
-		display: block;
-		min-height: 50px;
-		padding: 15px 22px;
+	nav#main-navigation .menu-block {
+		position: absolute;
+		top: 105px;
+		width: 100%;
+		text-align: center;
+	}
+	
+	nav#main-navigation .main-item { 
+		display: inline-block;
+		min-height: 30px;
+		max-height: 30px;
+		height: 30px;
 		overflow: hidden;
-		margin-bottom: 1px;
+		margin: 0 35px;
 		font-size: 17pt;
 		color: rgb(60, 85, 115);
-		background: rgba(60, 85, 115, 0.08);
+/*		background: rgba(60, 85, 115, 0.08); */
+		white-space: nowrap;
 	}
 
-	nav#main-navigation a.main-item:hover { background: rgba(255, 255, 255, 0.35); }
+	nav#main-navigation .main-item:hover { color: white; /*background: rgba(255, 255, 255, 0.35); */}
 
 	nav a img.icon {  width: 20px; height: 20px; margin-right: 7px; position: relative; top: 3px; }
 	
-	nav#main-navigation .sub-menu { position: absolute; left: 70px; z-index: 12; margin-left: -9999px;}
+	nav#main-navigation .sub-menu { position: absolute; top: 30px; text-align: left;/*left: 70px; z-index: 12; margin-left: -9999px; */}
 	nav#main-navigation .sub-menu a { 
 		display: block;
-		min-height: 50px;
-		width: 160px;
-		padding: 15px 15px;
-		margin-bottom: 1px;
+		padding-top: 30px;
 		font-size: 12pt;
 		color: rgb(150, 150, 150);
+/*		width: 170px;
+		padding: 15px 15px;
+		margin-bottom: 1px;
 		background: rgb(50, 50, 50);
+*/
 	}
 	nav#main-navigation .sub-menu a:hover { color: white; }
 	
 	nav#toolbar {
 //		background: rgba(173, 197, 227, 0.45);
-		background: url("images/header-background.png") repeat-x;
+//		background: url("images/header-background.png") repeat-x;
 		position: absolute;
 		top: 0px;
 		right: 0px;
 		padding: 15px;
 		border-bottom-left-radius: 10px;
 		box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+		border-left: solid 1px  rgba(0, 0, 0, 0.15);
+		border-bottom: solid 1px  rgba(0, 0, 0, 0.2);
 		opacity: 0.7;
 		z-index: 10;
 	}
@@ -105,13 +118,13 @@
 	nav#toolbar a span { display: none; }
 	nav#toolbar a input#search-field { max-height: 20px; }
 	
-	nav#toolbar #search-field { border-radius: 10px; border: solid 1px navy; font-size: 11pt; padding-left: 7px; }
+	nav#toolbar #search-field { border-radius: 10px; border: solid 1px gray; font-size: 11pt; padding-left: 7px; }
 	
 	section#main-section { 
 		position: absolute;
-		top: 0px;
-		bottom: 0px;
-		left:	230px;
+		top: 135px;
+		bottom: 70px;
+		left:0px;
 		right: 0px;
 		overflow-y: scroll;
 //		width: 100%;
@@ -119,7 +132,19 @@
 	
 	section#main-section article { max-width: 1000px; 	padding: 25px; }
 	
-	footer { padding: 25px; border-top: solid 1px wheat; background: rgba(245, 222, 179, 0.1); }
+	footer { 
+		position: absolute;
+		width: 100%;
+		height: 50px;
+		bottom: 0px;
+		z-index: 10;
+		padding: 15px; 
+		border-top: solid 1px wheat; 
+		background: rgba(245, 222, 179, 0.1);
+		text-align: center;
+	}
+	
+	footer * { display: inline-block; margin: 0 10px; }
 
 	a { cursor: pointer; text-decoration: none; }
 
@@ -134,7 +159,6 @@
 <script type="text/javascript">
 <!--	
 $(document).ready(function() {
-
 	$('#toolbar a').on('mouseenter', function() {
 //		$(this).find('input').stop();
 		if ($(this).find('span').css('display') == 'none') $(this).find('span').show('fast');
@@ -144,28 +168,33 @@ $(document).ready(function() {
 		$('#toolbar a span').stop().hide('fast');
 	});
 	
-	$('nav#main-navigation .menu-transform').on('mouseenter', function() {
-		$(this).find('.sub-menu').css('margin-left', '0px');
-		$('header a span').stop().hide(100);
-		$('header #logo').stop().animate({'width': '90%', 'margin-left': '-45%'}, 100);
-		$('nav#main-navigation').stop().animate({'width' : '70'}, 100);
+	$('nav#main-navigation .menu-block').on('mouseenter', function() {
+		$('header').stop().animate({'height': '350'}, 100);
+//		$(this).find('.sub-menu').css('margin-left', '0px');
+//		$('header a span').stop().hide(100);
+//		$('header #logo').stop().animate({'width': '90%', 'margin-left': '-45%'}, 100);
+//		$('nav#main-navigation').stop().animate({'width' : '70'}, 100);
 	});
 
-	$('nav#main-navigation .menu-transform').on('mouseleave', function() {
-		$(this).find('.sub-menu').css('margin-left', '-9999px');
-		$('header #logo').stop().animate({'width': '70%', 'margin-left': '-35%'}, 50);
-		$('nav#main-navigation').stop().animate({'width' : '230'}, 50, function() { $('header a span').stop().show(100); });
+	$('nav#main-navigation').on('mouseleave', function() {
+		$('header').stop().animate({'height': '135'}, 300);
+//		$(this).find('.sub-menu').css('margin-left', '-9999px');
+//		$('header #logo').stop().animate({'width': '70%', 'margin-left': '-35%'}, 50);
+//		$('nav#main-navigation').stop().animate({'width' : '240'}, 50, function() { $('header a span').stop().show(100); });
 	});
-
+/*
+*/
 });	
 -->
 </script>
 
 </head>
 <body>
+
 	<header>
 		<nav id="main-navigation" role="navigation">
-			<div id="logo"><a href="/" title="на главную"><img src="images/logo.png" alt="Logo" /></a></div>
+			<div id="logo"><a href="/" title="на главную"><img src="images/logo.png" alt="Logo" /><span>Федерация альпинизма Пензенской области<br/>и Пензенский альпклуб</span></a></div>
+<!--
 			<div class="menu-transform">
 				<div class="sub-menu">
 					<a>Устав</a>
@@ -182,10 +211,26 @@ $(document).ready(function() {
 				</div>
 				<a class="main-item"><img class="icon" src="images/club-icon.png" /><span>клуб<span></a>
 			</div>
-			<a class="main-item"><img class="icon" src="images/calendar-icon.png" /><span>события<span></a>
-			<a class="main-item"><img class="icon" src="images/report-icon.png" /><span>отчёты<span></a>
-			<a class="main-item"><img class="icon" src="images/mountain-icon.png" /><span>горы мира<span></a>
-			<div id="copyright">&copy; One-two-three & etc…</div>
+-->
+			<div class="menu-block">
+				<div class="main-item"><a><img class="icon" src="images/help-icon.png" /><span>федерация<span></a>
+					<div class="sub-menu">
+						<a class="sub-item">Устав</a>
+						<a class="sub-item">Члены федерации</a>
+						<a class="sub-item">План работы и развития</a>
+					</div>
+				</div>
+				<div class="main-item"><a><img class="icon" src="images/club-icon.png" /><span>клуб<span></a>
+					<div class="sub-menu">
+						<a>История клуба</a>
+						<a>Члены клуба</a>
+						<a>Расписание занятий</a>
+					</div>
+				</div>
+				<a class="main-item"><img class="icon" src="images/calendar-icon.png" /><span>события<span></a>
+				<a class="main-item"><img class="icon" src="images/report-icon.png" /><span>статьи и отчёты<span></a>
+				<a class="main-item"><img class="icon" src="images/mountain-icon.png" /><span>горы мира<span></a>
+			</div>
 		</nav>
 	</header>
 
@@ -222,11 +267,13 @@ $(document).ready(function() {
 			<p>Очевидно, что «водное перемирие» в среде рвущихся к власти долго длиться не может. Развитие системы требует определенной скорости вертикальной социальной динамики. Как только обновление человеческого материала среди властвующих снижается ниже порогового уровня, когда основная масса населения лишается перспективы подняться вверх по социальной лестнице и получить непосредственный доступ к системе перераспределения жизненных благ, назревает социальный взрыв.</p>
 		</article>
 
-		<footer role="contentinfo">
-			<address>1-2-3-4-5…  rabbit go to the walk….</address>
-		</footer>
-	
 	</section>
+
+	<footer role="contentinfo">
+		<span>&copy; One-two-three & etc…</span>
+		<address>1-2-3-4-5…  rabbit go to the walk….</address>
+	</footer>
+	
 
 </body>
 </html>
