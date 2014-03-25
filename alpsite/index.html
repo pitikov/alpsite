@@ -31,7 +31,8 @@
 	
 	body {
 		font: normal 10.5pt/14pt "Lucida Grande", "Lucida Sans Unicode", Helvetica, Verdana, Arial, sans-serif;
-		background: url("images/content-background.png") repeat;
+/*		background: url("images/content-background.png") repeat; */
+		background: fixed url("images/body-background.jpg") center bottom no-repeat rgb(139,150,182);
 	}
 	
 	header {
@@ -39,15 +40,17 @@
 		width: 100%;
 		height: 135px;
 		z-index: 10;
-		background: rgba(0, 0, 5, 0.9) url("images/header-background.png") repeat-x;
-//		background: url("images/submenu-background.png") repeat-x;
+/*
+		background: url("images/header-background.png") repeat-x rgba(245, 222, 179, 0.85);
+		background: rgba(245, 222, 179, 0.85);
+*/
 		box-shadow: 0px 5px 10px rgba(0, 0, 5, 0.15);
 		overflow: hidden;
 	}
 	
 	#logo { height: 100px; position: relative; top: 5px; left: 20px; }
 	#logo img { float: left; height: 100%; margin-right:25px; }
-	#logo a span { font: 28pt/32pt "Georgia", serif; vertical-align: top; color: rgb(60, 75, 115); }
+	#logo a span { font: 28pt/32pt "Georgia", serif; vertical-align: top; color: rgb(255,255,155); }
 
 	nav#main-navigation {
 		position: absolute;
@@ -100,6 +103,7 @@
 	nav#toolbar {
 //		background: rgba(173, 197, 227, 0.45);
 //		background: url("images/header-background.png") repeat-x;
+		background: rgba(245, 245, 200, 0.9);
 		position: absolute;
 		top: 0px;
 		right: 0px;
@@ -108,7 +112,7 @@
 		box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
 		border-left: solid 1px  rgba(0, 0, 0, 0.15);
 		border-bottom: solid 1px  rgba(0, 0, 0, 0.2);
-		opacity: 0.7;
+		opacity: 0.85;
 		z-index: 10;
 	}
 	
@@ -124,13 +128,13 @@
 		position: absolute;
 		top: 135px;
 		bottom: 70px;
-		left:0px;
-		right: 0px;
+		left:70px;
+		right: 170px;
 		overflow-y: scroll;
 //		width: 100%;
 	}
 	
-	section#main-section article { max-width: 1000px; 	padding: 25px; }
+	section#main-section article { max-width: 1200px; 	padding: 25px; }
 	
 	footer { 
 		position: absolute;
@@ -140,7 +144,7 @@
 		z-index: 10;
 		padding: 15px; 
 		border-top: solid 1px wheat; 
-		background: rgba(245, 222, 179, 0.1);
+		background: rgba(245, 222, 179, 0.5);
 		text-align: center;
 	}
 	
@@ -194,24 +198,6 @@ $(document).ready(function() {
 	<header>
 		<nav id="main-navigation" role="navigation">
 			<div id="logo"><a href="/" title="на главную"><img src="images/logo.png" alt="Logo" /><span>Федерация альпинизма Пензенской области<br/>и Пензенский альпклуб</span></a></div>
-<!--
-			<div class="menu-transform">
-				<div class="sub-menu">
-					<a>Устав</a>
-					<a>Члены федерации</a>
-					<a>План работы и развития</a>
-				</div>
-				<a class="main-item"><img class="icon" src="images/help-icon.png" /><span>федерация<span></a>
-			</div>
-			<div class="menu-transform">
-				<div class="sub-menu">
-					<a>История клуба</a>
-					<a>Члены клуба</a>
-					<a>Расписание занятий</a>
-				</div>
-				<a class="main-item"><img class="icon" src="images/club-icon.png" /><span>клуб<span></a>
-			</div>
--->
 			<div class="menu-block">
 				<div class="main-item"><a><img class="icon" src="images/help-icon.png" /><span>федерация<span></a>
 					<div class="sub-menu">
@@ -243,7 +229,7 @@ $(document).ready(function() {
 	</aside>
 	
 	<section id="main-section" role="main">
-		<article>
+		<article style="margin: 10px; background: rgba(255, 240, 225, 0.5); border-radius: 15px; border: solid 1px rgba(255, 255, 230, 0.35); ">
 			<h1>Глава третья. Это — человек</h1>
 			<p>Человек как высокоразвитая саморегулирующаяся система имеет свойство отражать (переносить) свои свойства на окружающую среду. Он единственное существо на планете, в котором это свойство развито максимальным образом.</p>
 			<p>Камень — усиление свойств кулака. Каменный топор — уже отражение принципа рычага, заложенного в конструкцию руки. Брошенный в цель камень — перенос на расстояние ударного воздействия кулака.</p>
